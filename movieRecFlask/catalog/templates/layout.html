@@ -1,0 +1,116 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    {# head #}
+    {% block head %}
+    <head>
+        <title> The Movie Recommender</title>
+        <meta charset="UTF-8">
+
+        <!-- this is custom fonts from the google font api at fonts.google.com -->
+        <!-- this link did not work <link href="https://fonts.googleapis.com/css?family-Sansita" rel="stylesheet"> -->
+        <!-- this link has bold and italics, but that's not why the above didn't work, just looks better -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+        <!-- below is an html link to access our custom CSS file -->
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/styles.css') }}">
+        <!-- this allows us to use our custom css files with the twitter bootstrap framekwork -->
+        <!-- if you are using the default css/html from bootstrap at "bootstrap/base.html" you don't need this line below -->
+        <!-- because the base styles are already defined in the default html -->
+        <!-- this link was copy pasted from getbootstrap.com/getting-started under 'Latest compiled and minified CSS-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    {% endblock head %}
+
+
+
+
+    {# body #}
+    {% block body %}
+    <body>
+        <div class="wrapper">
+
+             <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar navbar-text" href="{{ url_for('main.hello') }}">
+                                <h3 class="title">Movie Recommender: What's Next?</h3></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{ url_for('main.hello') }}"><span class="glyphicon glyphicon-film"></span> Home </a></li>
+<li><a href="{{ url_for('main.about') }}"><span class="glyphicon glyphicon-pencil"></span> About </a></li>
+                                <li><a href="{{ url_for('main.data') }}"><span class="glyphicon glyphicon-wrench"></span> Data </a></li>
+                                <li><a href="{{ url_for('authentication.register_user') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+
+                                <li> {% if current_user.is_authenticated %}
+                                        <a href="{{ url_for('authentication.log_out_user') }}"><span class="glyphicon glyphicon-log-out"></span> Log Out </a>
+                                       {% else %}
+                                        <a href="{{ url_for('authentication.do_the_login') }}"><span class="glyphicon glyphicon-log-in"></span> Log In </a>
+                                       {% endif %}
+                                </li>
+                                <li>
+                                    <a href="#">
+                                    <!-- this code means, if current user has been authenticated (ie. logged in)
+                                            then display this text on the page -->
+                                    {% if current_user.is_authenticated %}
+                                    <b style="color: deeppink">{{ current_user.user_name.title() }}</b>
+                                     {% endif %}
+                                        </a>
+                                </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+            <!-- this code makes the flash messages appear below the navigation bar on any page -->
+            <!-- more info http://flask.pocoo.org/docs/0.12/patterns/flashing/ -->
+            {# flash messaging #}
+            {% for message in get_flashed_messages() %}
+                <div class="container alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert"></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+
+
+
+
+            {# empty block for custom content #}
+            {% block content %}
+
+            {% endblock content %}
+
+
+
+
+
+
+            {# footer #}
+            {% block footer %}
+            <footer>
+                <div class="container ftr">
+                    <hr>
+                    <p class="text-center small"> Movie Recommender© | 2020 </p>
+                </div>
+            </footer>
+            {% endblock footer %}
+
+        </div>
+    </body>
+    {% endblock body %}
+</html>

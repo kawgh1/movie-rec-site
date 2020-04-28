@@ -1,0 +1,65 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+            <div class="container fluid">
+                  <!-- Display Movie Recommendations -->
+                <h3 class="form"> About Movie Recommender </h3>
+                <hr>
+                <p>This recommender engine was created using the "small" subset of the GroupLens MovieLens 25 Million dataset.
+                    This "small" dataset contains approximately 100,000
+                ratings of approximately 10,000 movies by approximately 600 users.
+                    The Movie Recommender is a private, educational website. It is not for any commercial purpose and is not
+                    endorsed by any organization. The datasets are provided free for non-commercial public use by GroupLens MovieLens.
+                    For more information about the dataset, please visit the <a href="{{ url_for('main.data') }}">Data</a> page.</p>
+                <br>
+
+                <h3 class="form">How It Works</h3>
+                <hr>
+                <p>The recommender engine uses the Nearest Neighbors algorithm from the Machine Learning Python Library Sci-Kit Learn (sklearn.neighbors).
+                It is an unsupervised algorithm that in our case maps all of the ratings by each user in our data and turns them into vectors.
+                It then compares all of these vectors by measuring the angle between each vector.</p>
+                <p>When a user inputs a movie to receive recommendations, the algorithm takes that movie and compares it to all of
+                the vectors it has mapped, and returns the top movies within those vectors that most closely match the
+                user's movie.</p>
+                <p>Sometimes the recommendations are accurate and other times they do not appear to make any sense. Part of the reason for this
+                is due to the relatively narrow dataset used. The ratings are from 600 users. The average number of ratings per movie is 10 ratings
+                    while the median number of ratings is 3 ratings.</p>
+                <img src="static/img/num-ratings-per-movie.png" alt="Number of Ratings Per Movie Graph" class="center">
+                <p>This means more than 50% of the movies in the data - over 5,000 movies - Movie Recommender uses to provide recommendations have
+                3 ratings or less. This is called data sparsity - where, despite having a large data set, it is highly concentrated in only a few
+                areas or datapoints. Nevertheless, movies with more ratings are much more likely to be recommended, as they are found in more vectors
+                mapped by the algorithm. In this way, Movie Recommender can still provide meaningful recommendations when the input movie has close
+                vector matches to the movies with many ratings in the dataset.</p>
+
+
+        <br>
+        <br>
+                 <br>
+        <br>
+                 <br>
+        <br>
+                 <br>
+        <br>
+
+
+        <span class="label label-primary" style="margin-left: 45%"><a href="{{ url_for('main.hello') }}" style="color: floralwhite"> Back to Home </a></span>
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

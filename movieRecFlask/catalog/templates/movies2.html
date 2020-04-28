@@ -1,0 +1,106 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+            <div class="container fluid">
+                  <!-- Display Movie Recommendations -->
+                <h3 class="form"> Movies to Watch </h3>
+                <hr>
+
+                <p>Recommendations based on 100,000 reviews of over 10,000 movies!</p>
+
+                <!-- make a field that takes a movie title, a button "get recs!" that runs the recommender function,
+                        then displays list of movie recs -->
+
+                {{ wtf.quick_form(form) }}
+
+                 {{ form.hidden_tag() }}
+
+
+                <!-- if they're logged in, their movie rec results have a green '+' sign to add movie to their list, otherwise, just the movie name displays -->
+                {% if current_user.is_authenticated %}
+
+                        <h4>Movie Selected: <b>{{ movies[0] }} </b><span class="label label-success"><a href="{{ url_for('main.add_movie', item=movies[  0  ]) }}" style="color: floralwhite; font-size: 14px">+</a></span> </h4>
+                        <p style="font-size: 12px; text-indent: 15px">*Not the right movie? Try inputting the movie year after the title</p>
+                        <!-- horizontal line -->
+                        <hr>
+                        <h4>Recommendations</h4>
+                         <ul>
+                            {% for item in movies[1:] %}
+
+                             <li>{{ item }} <span class="label label-success"><a href="{{ url_for('main.add_movie', item=movies[  loop.index  ]) }}" style="color: floralwhite; font-size: 14px">+</a></span></li>
+                            {% endfor %}
+                        </ul>
+
+                {% else %}
+
+                        <h4>Movie Selected: <b>{{ movies[0] }} </b> </h4>
+                        <p style="font-size: 12px; text-indent: 15px">*Not the right movie? Try inputting the movie year after the title</p>
+                <!-- horizontal line -->
+                        <hr>
+                        <h4>Recommendations</h4>
+                        <ul>
+                            {% for item in movies[1:] %}
+                                <li>{{ item }} </li>
+                            {% endfor %}
+                        </ul>
+
+
+                {% endif %}
+
+                <br>
+                <br>
+                <br>
+
+                <!-- Then below I want to display their movies - from their user_movie table -->
+
+                 <!-- this code means, if current user has been authenticated (ie. logged in)
+                                        then display this text on the page -->
+                                {% if current_user.is_authenticated %}
+
+
+                <h4>This Collection Belongs to <b style="color: deeppink">{{ current_user.user_name.title() }}</b> </h4>
+                <!-- horizontal line -->
+                <hr>
+
+                <ul>
+                    {% for item in user_movies %}
+
+                        <li>{{ item }} <span class="label label-primary"><a href="" style="color: floralwhite;">X</a> </span><!-- want to add an red "remove movie" button here that saves the movie to their personal list --></li>
+
+                    {% endfor %}
+
+                </ul>
+                {% else %}
+
+                <p><b><a href="{{ url_for('authentication.register_user') }}"> Sign up</a></b> or <b><a href="{{ url_for('authentication.do_the_login') }}">log in</a></b> to view your saved recommendations!</p>
+
+                                {% endif %}
+
+            </div>
+
+<br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

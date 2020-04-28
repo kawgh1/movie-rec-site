@@ -1,0 +1,80 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+            <div class="container fluid">
+                  <!-- Display Movie Recommendations -->
+                <h3 class="form"> Movies to Watch </h3>
+                <hr>
+
+                <p>Recommendations based on 100,000 reviews of over 10,000 movies!</p>
+
+
+
+
+                <!-- make a field that takes a movie title, a button "get recs!" that runs the recommender function,
+                        then displays list of movie recs -->
+
+                {{ wtf.quick_form(form) }}
+
+                 {{ form.hidden_tag() }}
+
+                <!-- horizontal line -->
+
+
+
+
+                <!-- Then below I want to display their movies - from their user_movie table -->
+
+                 <!-- this code means, if current user has been authenticated (ie. logged in)
+                                        then display this text on the page -->
+                {% if current_user.is_authenticated %}
+
+                        <br>
+                        <br>
+                        <br>
+                        <h4>This Collection Belongs to <b style="color: deeppink">{{ current_user.user_name.title() }}</b> </h4>
+                        <!-- horizontal line -->
+                        <hr>
+
+                        <ul>
+                            {% for item in user_movies %}
+
+                                <li>{{ item }} <span class="label label-primary"><a href="{{ url_for('main.remove_movie', item=user_movies[  loop.index - 1  ]) }}" style="color: floralwhite">x</a> </span><!-- want to add an red "remove movie" button here that saves the movie to their personal list --></li>
+
+                            {% endfor %}
+
+                        </ul>
+                {% else %}
+
+                <p><b><a href="{{ url_for('authentication.register_user') }}"> Sign up</a></b> or <b><a href="{{ url_for('authentication.do_the_login') }}">log in</a></b> to view your saved recommendations!</p>
+
+                {% endif %}
+
+            </div>
+
+<br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="container fluid">
+    <h3 class="form"> Register Here </h3>
+
+        <hr><br>
+
+          {{ form.hidden_tag() }}
+        <!-- this line brings the form data from our routes request register_user() method
+                thus, all the data - name, username, email, password, are pulled through to here -->
+        {{ wtf.quick_form(form) }}
+
+
+
+    </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+
+{% endblock %}
