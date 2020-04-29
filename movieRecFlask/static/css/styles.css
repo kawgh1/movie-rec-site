@@ -1,37 +1,24 @@
 
 html, body {height: 100%; margin: 0; padding: 0}
-.navbar-text { position: relative; top: -5px; }
 
-ul { position: relative; top: 15px; }
-
-.ftr {padding: 25px}
-.wrapper {position: relative; min-height: 120%;}
-.title { color: floralwhite }
-
-
-
-
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 400px;
-}
-
+ul { position: relative; top: 25px; }
 
 p {padding: 4px}
 
 a { font-weight:bold; margin:0 auto;}
 
+footer{ position: absolute; width: 100%; left:0 ;bottom: 0; height: 0px; margin-top: -50px }
 
-       /* max-width: 1200px;
-        margin: 0 auto; /*make the menu center-aligned*/}
+.navbar-text { position: relative; top: -5px; }
+.ftr {padding: 25px}
+.wrapper {position: relative; min-height: 120%;}
+.title { color: floralwhite; margin-left:25px }
 
-
+/* used just for centering images on page */
+.center {  display: block;  margin-left: auto;  margin-right: auto;  width: 400px;}
 
 .form { height: 40%; width:90%; padding: 10px; position: relative; left: 10px}
 .form-group {width: 200px}
 .login-msg{position: relative; left: 10px}
 
-footer{ position: absolute; width: 100%; left:0 ;bottom: 0; height: 0px; margin-top: -50px }
 

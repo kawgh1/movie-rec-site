@@ -49,48 +49,46 @@ def create_app(config_type): # dev, test, prod
 
     app = Flask(__name__)
 
-    # os.getcwd() --> get current working directory --> C:\\Users\JJ\PycharmProjects\book_catalog
+    # for local work
+    # os.getcwd() --> get current working directory --> C:\\Users\<name>\<projects>\<project file>
 
     # config_type is the name of our package file (dev, test, prod)
 
     # so we are joining the current working directory with the package folder/file we want
     configuration = os.path.join(os.getcwd(), 'config', config_type + '.py')
 
-    # the above outputs --> C:\Users\JJ\PycharmProjects\book_catalog\dev.py
-
-    # This method allows us to change our configuration file with ease, we just pass the file type (dev, test, prod) we want
-    # into the create_app(config_type) method
+    # This format allows us to change our configuration file with ease,
+    # we just pass the file type (dev, test, prod) we want
+    # into the create_app(config_type) method in run.py
 
     app.config.from_pyfile(configuration)
 
-    # Since the config file is now available to us, we can now attach it to our database initialization
+    # Since the config file is now available to us, we can attach it to our database initialization
 
-    recommender_db.init_app(app) # bind database to flask app
+    recommender_db.init_app(app)  # bind database to flask app
 
-    bootstrap.init_app(app) # initialize bootstrap, this will integrate bootstrap with our flask application
+    bootstrap.init_app(app)  # initialize bootstrap, this will integrate bootstrap with our flask application
 
-    login_manager.init_app(app) # initialize login manager
+    login_manager.init_app(app)  # initialize login manager
 
-    bcrypt.init_app(app) # initialize bcrypt
+    bcrypt.init_app(app)  # initialize bcrypt
 
-    heroku.init_app(app) # initialize heroku
-
-
+    heroku.init_app(app)  # initialize heroku
 
     # from bookFlask.catalog import main
-    from movieRecFlask.catalog import main # import blueprint
+    from movieRecFlask.catalog import main  # import 'main' (catalog) blueprint
 
     # this is the Flask application instance and not the package
-    app.register_blueprint(main) # register blueprint
+    app.register_blueprint(main)  # register blueprint
 
     # importing the authentication Blueprint from bookFlask.auth
     # not doing this results in a 404 error for localhost/register
     from movieRecFlask.auth import authentication
-    app.register_blueprint(authentication)
+    app.register_blueprint(authentication)  # import 'authentication' (auth) blueprint
 
     return app
 
     # this function can be called an 'application factory'
 
-    # because we are creating the Flask application on the fly using th desired configuration
-    # the configuration could be development, testing or production
+    # because we are creating the Flask application on the fly (in run.py) using th desired configuration
+    # the configuration can be development, testing or production or other as needed

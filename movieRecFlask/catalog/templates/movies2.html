@@ -28,7 +28,7 @@
                         <!-- horizontal line -->
                         <hr>
                         <h4>Recommendations</h4>
-                         <ul>
+                        <ul>
                             {% for item in movies[1:] %}
 
                              <li>{{ item }} <span class="label label-success"><a href="{{ url_for('main.add_movie', item=movies[  loop.index  ]) }}" style="color: floralwhite; font-size: 14px">+</a></span></li>
@@ -36,10 +36,11 @@
                         </ul>
 
                 {% else %}
+                        <!-- if not logged in, just display the movie recommendations -->
 
                         <h4>Movie Selected: <b>{{ movies[0] }} </b> </h4>
                         <p style="font-size: 12px; text-indent: 15px">*Not the right movie? Try inputting the movie year after the title</p>
-                <!-- horizontal line -->
+                        <!-- horizontal line -->
                         <hr>
                         <h4>Recommendations</h4>
                         <ul>
@@ -55,12 +56,11 @@
                 <br>
                 <br>
 
-                <!-- Then below I want to display their movies - from their user_movie table -->
+                <!-- Then below display their movies - from their user movie table -->
 
                  <!-- this code means, if current user has been authenticated (ie. logged in)
                                         then display this text on the page -->
-                                {% if current_user.is_authenticated %}
-
+                {% if current_user.is_authenticated %}
 
                 <h4>This Collection Belongs to <b style="color: deeppink">{{ current_user.user_name.title() }}</b> </h4>
                 <!-- horizontal line -->
@@ -76,13 +76,13 @@
                 </ul>
                 {% else %}
 
-                <p><b><a href="{{ url_for('authentication.register_user') }}"> Sign up</a></b> or <b><a href="{{ url_for('authentication.do_the_login') }}">log in</a></b> to view your saved recommendations!</p>
+                <p style="padding-left: 25px"><b><a href="{{ url_for('authentication.register_user') }}"> Sign up</a></b> or <b><a href="{{ url_for('authentication.do_the_login') }}">log in</a></b> to view your saved recommendations!</p>
 
                                 {% endif %}
 
             </div>
 
-<br>
+        <br>
         <br>
         <br>
         <br>

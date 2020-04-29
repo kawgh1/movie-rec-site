@@ -1,3 +1,4 @@
+# MovieRecSite/catalog/forms.py
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, FloatField
 from wtforms.validators import DataRequired

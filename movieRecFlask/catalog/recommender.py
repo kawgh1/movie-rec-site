@@ -1,7 +1,9 @@
+# MovieRecSite/catalog/recommender.py
 from movieRecFlask.catalog import main, routes
 
 from fuzzywuzzy import process
-# FuzzyWuzzy takes a string, such as a movie name 'toy story' and corrects for misspellings or similar names, matched to the movies in our database
+# FuzzyWuzzy takes a string, such as a movie name 'toy story' and corrects for misspellings
+# or similar names, matched to the movies in our database
 # example user searches for 'Gojira' FuzzyWuzzy returns 'Godzilla'
 
 import pandas as pd
@@ -19,17 +21,18 @@ df_movies = pd.read_csv('movieRecFlask/catalog/data/movies.csv')
 df_ratings = pd.read_csv('movieRecFlask/catalog/data/ratings.csv')
 
 # For df_movies DataFrame use only 'movieId' and 'title' columns
-df_movies = pd.read_csv('movieRecFlask/catalog/data/movies.csv', usecols=['movieId', 'title'], dtype={'movieId':'int32', 'title':'str'})
+df_movies = pd.read_csv('movieRecFlask/catalog/data/movies.csv', usecols=['movieId', 'title'],
+                        dtype={'movieId': 'int32', 'title': 'str'})
 # print(df_movies.head(10))
 
 # For df_ratings DataFrame use only 'userId' and 'movieId' and 'rating' columns
-df_ratings = pd.read_csv('movieRecFlask/catalog/data/ratings.csv', usecols = ['userId', 'movieId', 'rating'],
-                       dtype={'userId':'int32', 'movieId':'int32', 'rating': 'float32'})
+df_ratings = pd.read_csv('movieRecFlask/catalog/data/ratings.csv', usecols=['userId', 'movieId', 'rating'],
+                         dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'})
 
 # print(df_ratings.head(10))
 
 # Merge df_movies and df_ratings into df_merge on 'movieId' column
-df_merge = pd.merge(df_ratings, df_movies, on = 'movieId')
+df_merge = pd.merge(df_ratings, df_movies, on='movieId')
 # print(df_merge.head(10))
 
 # Any reason to install matplotlib?
@@ -107,7 +110,6 @@ def recommender_plus(movie_name, data, model, n_recommendations):
 
     for i in movie_and_distance_list_of_tuples[1:]:
         print(i)
-
 
 
 # recommender_plus('jurassic park', mat_movies_users, model_knn, 6)
