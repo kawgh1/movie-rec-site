@@ -61,25 +61,107 @@ def create_dashboard(server):
     # create postgres connection from Dash App
     con = create_engine(url)
 
-    # total users over time dataframe from postgres server
-    query = 'SELECT id, registration_date FROM users;'
-    df_users = pd.read_sql(query, con)
+
+    # Filling Dash Graph x and y values with method calls to get data from postgres
+
+    # return the 'just_date' column
+    def total_get_recs_rows_x():
+        # total users over time dataframe from postgres server
+        query = 'SELECT id, registration_date FROM users;'
+        df_users = pd.read_sql(query, con)
+
+        # # get-recs-clicks dataframe
+        query1 = 'SELECT date, user_id FROM recsclicks;'
+        df_total_get_recs_rows = pd.read_sql(query1, con)
+
+        df_total_get_recs_rows['just_date'] = df_total_get_recs_rows['date'].dt.date
+
+        return df_total_get_recs_rows['just_date']
+
+    # return total_get_recs_rows which is # of rows in the table
+    def total_get_recs_rows_y():
+        # total users over time dataframe from postgres server
+        query = 'SELECT id, registration_date FROM users;'
+        df_users = pd.read_sql(query, con)
+
+        # # get-recs-clicks dataframe
+        query1 = 'SELECT date, user_id FROM recsclicks;'
+        df_total_get_recs_rows = pd.read_sql(query1, con)
+
+        df_total_get_recs_rows['just_date'] = df_total_get_recs_rows['date'].dt.date
+
+        total_get_recs_rows = df_total_get_recs_rows.groupby([df_total_get_recs_rows.just_date.index,
+                                                              df_total_get_recs_rows.user_id]).size()
+        return total_get_recs_rows
 
 
-    # # get-recs-clicks dataframe
-    query1 = 'SELECT date, user_id FROM recsclicks;'
-    df_total_get_recs_rows = pd.read_sql(query1, con)
+    # # total users over time dataframe from postgres server
+    # query = 'SELECT id, registration_date FROM users;'
+    # df_users = pd.read_sql(query, con)
 
-    df_total_get_recs_rows['just_date'] = df_total_get_recs_rows['date'].dt.date
+    def total_users_over_time_x():
+        query = 'SELECT id, registration_date FROM users;'
+        df_users = pd.read_sql(query, con)
 
-    total_get_recs_rows = df_total_get_recs_rows.groupby([df_total_get_recs_rows.just_date.index,
-                                                             df_total_get_recs_rows.user_id]).size()
+        return df_users['registration_date']
 
-    # df = pd.read_csv('movieRecFlask/plotlydash/dashdata/recs-clicked.csv', parse_dates=['date'])
-    # total_get_recs_rows = df.groupby([df.date.index, df.userId]).size()
+    def total_users_over_time_y():
+        query = 'SELECT id, registration_date FROM users;'
+        df_users = pd.read_sql(query, con)
+
+        return df_users['id']
 
 
-    # # logins dataframe
+
+
+
+
+
+
+
+
+
+    # # logins dataframe method
+    query2 = 'SELECT date, userid FROM logins;'
+    df_total_get_logins_rows = pd.read_sql(query2, con)
+
+    df_total_get_logins_rows['just_date'] = df_total_get_logins_rows['date'].dt.date
+
+    total_get_logins_rows = df_total_get_logins_rows.groupby([df_total_get_logins_rows.just_date.index,
+                                                              df_total_get_logins_rows.userid]).size()
+
+    # df_logins = pd.read_csv('movieRecFlask/plotlydash/dashdata/logins.csv', parse_dates=['date'])
+    # total_get_logins_rows = df_logins.groupby([df_logins.date.index, df_logins.userId]).size()
+
+
+
+
+
+
+
+
+
+
+
+    # # total users over time dataframe from postgres server
+    # query = 'SELECT id, registration_date FROM users;'
+    # df_users = pd.read_sql(query, con)
+    #
+    #
+    # # # get-recs-clicks dataframe
+    # query1 = 'SELECT date, user_id FROM recsclicks;'
+    # df_total_get_recs_rows = pd.read_sql(query1, con)
+    #
+    # df_total_get_recs_rows['just_date'] = df_total_get_recs_rows['date'].dt.date
+    #
+    # total_get_recs_rows = df_total_get_recs_rows.groupby([df_total_get_recs_rows.just_date.index,
+    #                                                          df_total_get_recs_rows.user_id]).size()
+    #
+    # # df = pd.read_csv('movieRecFlask/plotlydash/dashdata/recs-clicked.csv', parse_dates=['date'])
+    # # total_get_recs_rows = df.groupby([df.date.index, df.userId]).size()
+    #
+    #
+    # # logins dataframe method
     query2 = 'SELECT date, userid FROM logins;'
     df_total_get_logins_rows = pd.read_sql(query2, con)
 
@@ -127,9 +209,9 @@ def create_dashboard(server):
                                     figure={
                                         'data': [
                                             go.Bar(
-                                                x=df_total_get_recs_rows['just_date'],
+                                                x=total_get_recs_rows_x(),
                                                 #y=df['userId'],
-                                                y=total_get_recs_rows,
+                                                y=total_get_recs_rows_y(),
                                                 marker_color = 'salmon'
                                                 # marker=dict(
                                                 #     line=dict(
@@ -151,8 +233,8 @@ def create_dashboard(server):
                                     figure={
                                         'data': [
                                             go.Scatter(
-                                                x=df_users['registration_date'],
-                                                y=df_users['id'],
+                                                x=total_users_over_time_x(),
+                                                y=total_users_over_time_y(),
                                                 marker=dict(
                                                     line=dict(
                                                         color='mediumspringgreen',
