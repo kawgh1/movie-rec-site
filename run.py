@@ -44,8 +44,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 flask_app = create_app('prod')
 
-# Dash app functions require these tables below before it can be initiliazed
-dash_app = create_dashboard(flask_app)
+
 
 with flask_app.app_context():
 
@@ -66,6 +65,9 @@ with flask_app.app_context():
             Logins.record_login(userid=0)
 
     except exc.IntegrityError:
+
+        # Dash app functions require these tables below before it can be initiliazed
+        dash_app = create_dashboard(flask_app)
 
         flask_app.run(debug=False)
 
