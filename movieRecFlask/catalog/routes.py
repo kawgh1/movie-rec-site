@@ -7,6 +7,14 @@ from movieRecFlask.catalog.models import UserMovies
 from flask import render_template, flash, request, redirect, url_for
 from flask_login import login_required
 
+# for dashboard visualization data
+from movieRecFlask.plotlydash import dashdata, dashboard
+import csv
+from datetime import datetime
+from datetime import date
+
+
+
 
 @main.route('/about', methods=['GET', 'POST'])
 def about():
@@ -19,8 +27,10 @@ def data():
 
 
 @main.route('/', methods=['GET', 'POST'])
+@main.route('/home', methods=['GET', 'POST'])
 def hello():
     form = GetRecsForm()
+    rating_list = []
 
     if current_user.is_authenticated:
 
@@ -31,9 +41,29 @@ def hello():
         if form.validate_on_submit():
             movie_name = form.movie_name.data
 
-            movie_list = recommender.recommender2(movie_name)
+            movie_list = recommender.recommender_final(movie_name)
+
+            movie_id = recommender.get_movie_id(movie_name)
+
+            avg_rating = recommender.get_movie_avg(movie_name)
+
+            movie_returned_from_df = recommender.get_movie_name(movie_name)
+
+            # plotlydash/dashdata/recs-click.csv section
+            # header = ['date', 'userId', 'movieId', 'titleSearched', 'titleReturned', 'avg-rating']
+            # User ID == 0 is used for anonymous, not logged in users
+            row = [date.today(), user_id, movie_id, movie_name, movie_returned_from_df, avg_rating]
+
+            with open('movieRecFlask/plotlydash/dashdata/recs-clicked.csv', 'a', newline='', encoding='utf-8') as f:
+                csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                # csv_writer.writerow(header)
+                csv_writer.writerow(row)
+
+            for movie in movie_list:
+                rating_list.append(recommender.get_movie_avg(movie))
+
             # if user logged in and requests recommendation
-            return render_template('movies2.html',  movies=movie_list, user_movies=user_movies, form=form)
+            return render_template('movies2.html',  movies=movie_list, ratings=rating_list, user_movies=user_movies, form=form)
             # if user logged in and no request
         else:
             return render_template('movies1.html',  user_movies=user_movies, form=form)
@@ -43,9 +73,28 @@ def hello():
         if form.validate_on_submit():
             movie_name = form.movie_name.data
 
-            movie_list = recommender.recommender2(movie_name)
+            movie_list = recommender.recommender_final(movie_name)
 
-            return render_template('movies2.html', movies=movie_list, form=form)
+            movie_id = recommender.get_movie_id(movie_name)
+
+            avg_rating = recommender.get_movie_avg(movie_name)
+
+            movie_returned_from_df = recommender.get_movie_name(movie_name)
+
+            # plotlydash/dashdata/recs-click.csv section
+            header = ['date', 'userId', 'movieId', 'titleSearched', 'titleReturned', 'avg-rating']
+            # User ID == 0 is used for anonymous, not logged in users
+            row = [date.today(), 0, movie_id, movie_name, movie_returned_from_df, avg_rating]
+
+            with open('movieRecFlask/plotlydash/dashdata/recs-clicked.csv', 'a', newline='', encoding='utf-8') as f:
+                csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                # csv_writer.writerow(header)
+                csv_writer.writerow(row)
+
+            for movie in movie_list:
+                rating_list.append(recommender.get_movie_avg(movie))
+
+            return render_template('movies2.html', movies=movie_list, ratings=rating_list, form=form)
 
         else:
             # If it's a GET request, we just display the basic page with form

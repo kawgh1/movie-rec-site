@@ -3,6 +3,9 @@ from movieRecFlask import create_app, recommender_db
 from flask_login import UserMixin
 from datetime import datetime
 from movieRecFlask.auth.models import User
+from movieRecFlask.plotlydash.dashboard import create_dashboard
+
+
 from sqlalchemy import exc
 
 from flask import Flask
@@ -17,6 +20,10 @@ from flask_sqlalchemy import SQLAlchemy
 #######################
 
 flask_app = create_app('prod')
+
+# Create Dash Dashboard app by using the flask_app as its server
+dash_app = create_dashboard(flask_app)
+
 with flask_app.app_context():
     # create all database tables if they don't already exist
     recommender_db.create_all()
@@ -42,6 +49,9 @@ with flask_app.app_context():
 
 # if __name__ == '__main__':
 #     flask_app = create_app('dev')
+#
+#     dash_app = create_dashboard(flask_app)
+#
 #     with flask_app.app_context():
 #
 #         recommender_db.create_all()
@@ -49,4 +59,25 @@ with flask_app.app_context():
 #         if not User.query.filter_by(user_name='harry').first():
 #             User.create_user(user='harry', email='harry@potters.com', password='secret')
 #
+#         # from movieRecFlask.plotlydash.dashboard import create_dashboard
+#         # flask_app = create_dashboard(flask_app)
+#
+#
+#
 #         flask_app.run(debug=True)
+
+
+
+#### DASH code
+#
+# with app.app_context():
+    #     # Import Flask routes
+    #     from movieRecFlask.catalog import routes
+    #
+    #     # Import Dash application
+    #     from movieRecFlask.plotlydash.dashboard import create_dashboard
+    #     app = create_dashboard(app)
+    #
+    #     # Compile CSS
+    #     # from movieRecFlask.assets import compile_assets
+    #     # compile_assets(app)

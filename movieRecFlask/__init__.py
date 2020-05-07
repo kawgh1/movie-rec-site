@@ -86,6 +86,28 @@ def create_app(config_type): # dev, test, prod
     from movieRecFlask.auth import authentication
     app.register_blueprint(authentication)  # import 'authentication' (auth) blueprint
 
+    # Import Dash application
+    # from movieRecFlask.plotlydash import dashboard
+    # app.register_blueprint(dashboard)
+
+    # from movieRecFlask.plotlydash.dashboard import create_dashboard
+    #
+    # app = create_dashboard(app)
+
+    # with app.app_context():
+    #     # Import Flask routes
+    #     from movieRecFlask.catalog import routes
+    #
+    #     # Import Dash application
+    #     from movieRecFlask.plotlydash.dashboard import create_dashboard
+    #     app = create_dashboard(app)
+    #
+    #     # Compile CSS
+    #     # from movieRecFlask.assets import compile_assets
+    #     # compile_assets(app)
+
+
+
     return app
 
     # this function can be called an 'application factory'

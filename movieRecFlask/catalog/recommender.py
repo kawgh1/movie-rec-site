@@ -141,3 +141,98 @@ def recommender2(movie_name):
 
 
 # recommender2('diehard')
+
+
+### Auxillary methods to get movie rating average
+
+def get_movie_id(movie_name):
+
+    index = process.extractOne(movie_name, df_movies['title'])[2]
+
+    movie_id = df_movies['movieId'][index]
+
+    return movie_id
+
+def get_movie_name(movie_name):
+
+    index = process.extractOne(movie_name, df_movies['title'])[2]
+
+    name_found_in_df = df_movies['title'][index]
+
+    return name_found_in_df
+
+def get_movie_avg(movie_name):
+    index = process.extractOne(movie_name, df_movies['title'])[2]
+    # print("Movie Selected:  ", df_movies['title'][index], 'Index:  ', index)
+    # print("getting avg....")
+
+    movie_id = df_movies['movieId'][index]
+
+    # print('Movie ID ', movie_id, 'Index: ', index)
+
+    # df.loc[df['column_name'] == some_value]
+
+    # ratings = all the rows of df_rating where movieId == movie_id of movie searched for
+    ratings = df_ratings.loc[df_ratings['movieId'] == movie_id]
+    # ratings_sum = sum of all the numerical ratings for our movie
+    ratings_sum = ratings['rating'].sum()
+    # count = how many rows are in ratings
+    count = len(ratings.index)
+
+    average_rating = (ratings_sum) / count
+
+    final_avg = round(average_rating, 2)
+
+    #     print(df_ratings.loc[df_ratings['movieId'] == movie_id])
+    #     print('Count = ', count)
+    #     print('ratings sum = ', ratings_sum)
+    #     print('average rating = ', final_avg)
+
+    # executive decision - if a movie has less than 2 ratings
+    # return the average movie rating to equal '3' due to lack of
+    # a meaningful average
+    # I don't want a movie with 1 review of '5' next to a movie with 100 reviews at '4.25'
+
+    # if count < 2:
+    #     final_avg = 3.0
+
+    return final_avg
+
+##############################################################
+
+
+def recommender_final(movie_name):
+    index = process.extractOne(movie_name, df_movies['title'])[2]
+    # print("Movie Selected:  ", df_movies['title'][index], 'Index:  ', index)
+    # print("Searching for recommendations....")
+
+    distances, indices = model_knn.kneighbors(mat_movies_users[index])
+
+    # print('distances, indices = ', distances, indices)
+
+    # print(indices[0][1])
+
+    movie_rec_list = []
+    distance_list = []
+
+    # How to include the average movie rating as part of the movie title returned
+
+    # for i in indices[0]:
+    #     movie = (df_movies['title'][i])
+    #     movie_rating = get_movie_avg(movie)
+    #     # if movie_rating is not None:
+    #     movie = movie + ' - ' + str(movie_rating)
+    #     movie_rec_list.append(movie)
+
+    for i in indices[0]:
+        movie = (df_movies['title'][i])
+        movie_rec_list.append(movie)
+
+    # for i in movie_rec_list[1:]:
+    #     print(i)
+
+    # print(movie_rec_list[1:])
+    return movie_rec_list
+
+#############
+

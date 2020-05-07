@@ -7,6 +7,10 @@ from movieRecFlask.auth.forms import RegistrationForm, LoginForm
 from movieRecFlask.auth import authentication as at
 from movieRecFlask.auth.models import User
 
+# To record logins to csv
+from datetime import date
+import csv
+
 
 @at.route('/register', methods=['GET', 'POST'])
 def register_user():
@@ -82,6 +86,16 @@ def do_the_login():
         # if user log in IS valid, display the main page!
         # Write the user credentials to the session and stay logged in for the session
         login_user(user, form.stay_loggedin.data)
+
+        # User log ins are recorded to dashboard/logins.csv to show in dashboard
+        user_id = current_user.get_id()
+        # header = ['date', 'userId']
+        row = [date.today(), user_id]
+
+        with open('movieRecFlask/plotlydash/dashdata/logins.csv', 'a', newline='', encoding='utf-8') as f:
+            csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            # csv_writer.writerow(header)
+            csv_writer.writerow(row)
         return redirect(url_for('main.hello'))
 
     return render_template('login.html', form=form)
