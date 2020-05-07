@@ -151,6 +151,8 @@ def get_movie_id(movie_name):
 
     movie_id = df_movies['movieId'][index]
 
+    movie_id = int(movie_id)
+
     return movie_id
 
 def get_movie_name(movie_name):

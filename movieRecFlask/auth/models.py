@@ -1,5 +1,6 @@
 # movieRecFlask/auth/models.py
 from datetime import datetime
+from datetime import date
 from movieRecFlask import recommender_db, bcrypt # MovieRecSite/__init__.py
 from movieRecFlask import login_manager
 
@@ -65,3 +66,36 @@ def load_user(id):
 
 
 
+#####################################
+# This Table is just for the Dashboard app to track user logins to display in the Dashboard
+
+
+class Logins(UserMixin, recommender_db.Model):
+    __tablename__ = 'logins'
+
+    date = recommender_db.Column(recommender_db.DateTime, primary_key=True, default=datetime.now)
+    userid = recommender_db.Column(recommender_db.Integer)
+
+    # in-built python methods
+    # __init__() is called when new instances of a class are created, it initializes reference variables and attributes
+    # __repr__() takes only 1 parameter, self, and returns a string representation of an instance,
+    #                this helps in formatting and producing a readble output of the data
+
+    def __init__(self, userid):
+
+        #  date has been left out because it is automatically generated and can't be changed
+        # it will render on its own in the database table
+        self.userid = userid
+
+    def __repr__(self):
+        return 'userId is {}'.format(self.userid)
+
+
+    # This method records the login in the logins table
+    @classmethod
+    def record_login(cls, userid):
+        userid = cls(userid=userid)
+
+        recommender_db.session.add(userid)
+        recommender_db.session.commit()
+        return userid

@@ -22,8 +22,24 @@ from movieRecFlask.plotlydash import dashdata
 
 # Connecting to PostgreSQL database
 from sqlalchemy import create_engine
-# Local Settings
+
+##########################################################
+# - WEB HOST SETTINGS - check settings in run.py as well
+##########################################################
+# SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+##########################################################
+import os
+url = os.environ['DATABASE_URL']
+
+
+
+
+
+##################################################################
+# - LOCAL HOST SETTINGS - check settings in dashboard.py as well
+##################################################################
 # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/recommender_db'
+###################################################################
 # user = 'postgres'
 # password = 'password'
 # host ='localhost'
@@ -31,11 +47,7 @@ from sqlalchemy import create_engine
 # db = 'recommender_db'
 # url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
 
-# Webhost Setting (Heroku)
-import os
-# SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
-url = os.environ['DATABASE_URL']
 
 
 def create_dashboard(server):
@@ -48,18 +60,38 @@ def create_dashboard(server):
                          external_stylesheets=[dbc.themes.SLATE]
                          )
 
+    # create postgres connection from Dash App
+    con = create_engine(url)
+
     # total users over time dataframe from postgres server
     query = 'SELECT id, registration_date FROM users;'
-    con = create_engine(url)
     df_users = pd.read_sql(query, con)
 
-    # get-recs-clicks dataframe
-    df = pd.read_csv('movieRecFlask/plotlydash/dashdata/recs-clicked.csv', parse_dates=['date'])
-    total_get_recs_rows = df.groupby([df.date.index, df.userId]).size()
 
-    # logins dataframe
-    df_logins = pd.read_csv('movieRecFlask/plotlydash/dashdata/logins.csv', parse_dates=['date'])
-    total_get_logins_rows = df_logins.groupby([df_logins.date.index, df_logins.userId]).size()
+    # # get-recs-clicks dataframe
+    query1 = 'SELECT date, user_id FROM recsclicks;'
+    df_total_get_recs_rows = pd.read_sql(query1, con)
+
+    df_total_get_recs_rows['just_date'] = df_total_get_recs_rows['date'].dt.date
+
+    total_get_recs_rows = df_total_get_recs_rows.groupby([df_total_get_recs_rows.just_date.index,
+                                                             df_total_get_recs_rows.user_id]).size()
+
+    # df = pd.read_csv('movieRecFlask/plotlydash/dashdata/recs-clicked.csv', parse_dates=['date'])
+    # total_get_recs_rows = df.groupby([df.date.index, df.userId]).size()
+
+
+    # # logins dataframe
+    query2 = 'SELECT date, userid FROM logins;'
+    df_total_get_logins_rows = pd.read_sql(query2, con)
+
+    df_total_get_logins_rows['just_date'] = df_total_get_logins_rows['date'].dt.date
+
+    total_get_logins_rows = df_total_get_logins_rows.groupby([df_total_get_logins_rows.just_date.index,
+                                                                 df_total_get_logins_rows.userid]).size()
+
+    # df_logins = pd.read_csv('movieRecFlask/plotlydash/dashdata/logins.csv', parse_dates=['date'])
+    # total_get_logins_rows = df_logins.groupby([df_logins.date.index, df_logins.userId]).size()
 
     nav = dbc.NavbarSimple(
         children=[
@@ -97,7 +129,7 @@ def create_dashboard(server):
                                     figure={
                                         'data': [
                                             go.Bar(
-                                                x=df['date'],
+                                                x=df_total_get_recs_rows['just_date'],
                                                 #y=df['userId'],
                                                 y=total_get_recs_rows,
                                                 marker_color = 'salmon'
@@ -143,7 +175,7 @@ def create_dashboard(server):
                                     figure={
                                         'data': [
                                             go.Bar(
-                                                x=df_logins['date'],
+                                                x=df_total_get_logins_rows['just_date'],
                                                 #y=df['userId'],
                                                 y=total_get_logins_rows,
                                                 marker_color='indianred'
