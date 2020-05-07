@@ -23,34 +23,32 @@ from movieRecFlask.plotlydash import dashdata
 # Connecting to PostgreSQL database
 from sqlalchemy import create_engine
 
-##########################################################
-# - WEB HOST SETTINGS - check settings in run.py as well
-##########################################################
-# SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-##########################################################
-import os
-url = os.environ['DATABASE_URL']
 
-
-
-
-
-##################################################################
-# - LOCAL HOST SETTINGS - check settings in dashboard.py as well
-##################################################################
-# SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/recommender_db'
-###################################################################
-# user = 'postgres'
-# password = 'password'
-# host ='localhost'
-# port ='5432'
-# db = 'recommender_db'
-# url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
 
 
 
 
 def create_dashboard(server):
+
+    ##########################################################
+    # - WEB HOST SETTINGS - check settings in run.py as well
+    ##########################################################
+    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    ##########################################################
+    import os
+    url = os.environ['DATABASE_URL']
+
+    ##################################################################
+    # - LOCAL HOST SETTINGS - check settings in dashboard.py as well
+    ##################################################################
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/recommender_db'
+    ###################################################################
+    # user = 'postgres'
+    # password = 'password'
+    # host ='localhost'
+    # port ='5432'
+    # db = 'recommender_db'
+    # url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
 
 
 
