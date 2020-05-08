@@ -171,9 +171,6 @@ def create_dashboard(server):
             # ),
         ],
 
-        nav=True,
-        in_navbar=True,
-
         brand="Movie Recommender: Dashboard",
         brand_href="/dashapp/",
         color="primary",
