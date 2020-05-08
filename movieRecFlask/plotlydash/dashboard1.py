@@ -183,24 +183,26 @@ def create_dashboard(server):
 
     # Dash app layout
 
-    dash_app.layout = html.Div([navbar,
+    dash_app.layout = dbc.Container(
+                            html.Div([navbar,
 
-                                    html.Div([
-                                            # graphs
-                                            dcc.Graph(id='rec-clicks-per-day', relayoutData= 'False', style={'width': '95%', 'margin': '0 auto'}),
-                                            dcc.Graph(id='total-users-over-time', relayoutData= 'False', style={'width': '95%', 'margin': '0 auto'}),
-                                            dcc.Graph(id='user-logins-per-day', relayoutData= 'False', style={'width': '95%','margin': '0 auto'}),
+                                        html.Div([
+                                                # graphs
+                                                dcc.Graph(id='rec-clicks-per-day', relayoutData= 'False', style={'width': '95%', 'margin': '0 auto'}),
+                                                dcc.Graph(id='total-users-over-time', relayoutData= 'False', style={'width': '95%', 'margin': '0 auto'}),
+                                                dcc.Graph(id='user-logins-per-day', relayoutData= 'False', style={'width': '95%','margin': '0 auto'}),
 
-                                            dcc.Interval(id='interval-component',
-                                                         # update graphs every interval = 1 hour = 3600000 milliseconds
-                                                         interval=3600000,
-                                                         n_intervals=0),
+                                                dcc.Interval(id='interval-component',
+                                                             # update graphs every interval = 1 hour = 3600000 milliseconds
+                                                             interval=3600000,
+                                                             n_intervals=0),
 
 
 
-                                    ])
+                                        ])
 
                                 ])
+    )
 
     # The three callbacks below continuously update the graphs above
     # and define their layout, by using the methods at begining of this file
