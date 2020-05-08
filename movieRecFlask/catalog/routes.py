@@ -46,6 +46,8 @@ def hello():
 
             movie_id = recommender.get_movie_id(movie_name)
 
+            scores_list = recommender.get_movie_compatibility_score(movie_name)
+
             # avg_rating = recommender.get_movie_avg(movie_name)
             #
             # movie_returned_from_df = recommender.get_movie_name(movie_name)
@@ -74,7 +76,8 @@ def hello():
                 rating_list.append(recommender.get_movie_avg(movie))
 
             # if user logged in and requests recommendation
-            return render_template('movies2.html',  movies=movie_list, ratings=rating_list, user_movies=user_movies, form=form)
+            return render_template('movies2.html',  movies=movie_list, scores_list=scores_list,
+                                   ratings=rating_list, user_movies=user_movies, form=form)
             # if user logged in and no request
         else:
             return render_template('movies1.html',  user_movies=user_movies, form=form)
@@ -91,6 +94,8 @@ def hello():
             movie_list = recommender.recommender_final(movie_name)
 
             movie_id = recommender.get_movie_id(movie_name)
+
+            scores_list = recommender.get_movie_compatibility_score(movie_name)
 
             # avg_rating = recommender.get_movie_avg(movie_name)
             #
@@ -119,7 +124,8 @@ def hello():
             for movie in movie_list:
                 rating_list.append(recommender.get_movie_avg(movie))
 
-            return render_template('movies2.html', movies=movie_list, ratings=rating_list, form=form)
+            return render_template('movies2.html', movies=movie_list, scores_list=scores_list,
+                                   ratings=rating_list, form=form)
 
         else:
             # If it's a GET request, we just display the basic page with form

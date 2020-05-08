@@ -163,6 +163,24 @@ def get_movie_name(movie_name):
 
     return name_found_in_df
 
+def get_movie_compatibility_score(movie_name):
+    index = process.extractOne(movie_name, df_movies['title'])[2]
+    print("Movie Selected:  ", df_movies['title'][index], 'Index:  ', index)
+    print("Searching for recommendations....")
+
+    distances, indices = model_knn.kneighbors(mat_movies_users[index])
+
+    distance_list = []
+
+    for j in distances[0]:
+        j = j * 100
+        score = round(100 - j, 2)
+
+        distance_list.append(score)
+
+    return distance_list
+
+
 def get_movie_avg(movie_name):
     index = process.extractOne(movie_name, df_movies['title'])[2]
     # print("Movie Selected:  ", df_movies['title'][index], 'Index:  ', index)
