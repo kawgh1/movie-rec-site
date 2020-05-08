@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from datetime import datetime
 from movieRecFlask.auth.models import User, Logins
 from movieRecFlask.catalog.models import RecsClicks
-from movieRecFlask.plotlydash.dashboard import create_dashboard
+from movieRecFlask.plotlydash.dashboard1 import create_dashboard
 
 
 from sqlalchemy import exc
@@ -42,14 +42,15 @@ from flask_sqlalchemy import SQLAlchemy
 #         flask_app.run()
 
 
+
+##### Updated
+
+
 flask_app = create_app('prod')
-
-
 
 with flask_app.app_context():
 
     recommender_db.create_all()
-
 
     # If any of the User, RecsClicks or Logins tables are empty in Postgres,
     # Create an entry for them to initilialize
@@ -68,8 +69,6 @@ with flask_app.app_context():
         dash_app = create_dashboard(flask_app)
 
     except exc.IntegrityError:
-
-
 
         flask_app.run(debug=False)
 
@@ -103,19 +102,3 @@ with flask_app.app_context():
 #         dash_app = create_dashboard(flask_app)
 #
 #         flask_app.run(debug=True)
-
-
-
-#### DASH code
-#
-# with app.app_context():
-    #     # Import Flask routes
-    #     from movieRecFlask.catalog import routes
-    #
-    #     # Import Dash application
-    #     from movieRecFlask.plotlydash.dashboard import create_dashboard
-    #     app = create_dashboard(app)
-    #
-    #     # Compile CSS
-    #     # from movieRecFlask.assets import compile_assets
-    #     # compile_assets(app)
