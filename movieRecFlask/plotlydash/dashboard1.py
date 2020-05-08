@@ -150,7 +150,7 @@ def create_dashboard(server):
 
 # Begin Dash Layout
 
-    nav = dbc.NavbarSimple(
+    navbar = dbc.NavbarSimple(
         children=[
             # These Navlinks need to be coded with 'external_link=True'
             # Otherwise, Dash will not link out of itself back to the Flask app/website
@@ -170,6 +170,10 @@ def create_dashboard(server):
             #     label="More",
             # ),
         ],
+
+        nav=True,
+        in_navbar=True,
+
         brand="Movie Recommender: Dashboard",
         brand_href="/dashapp/",
         color="primary",
@@ -182,13 +186,13 @@ def create_dashboard(server):
 
     # Dash app layout
 
-    dash_app.layout = html.Div([nav,
+    dash_app.layout = html.Div([navbar,
 
                                     html.Div([
                                             # graphs
-                                            dcc.Graph(id='rec-clicks-per-day', style={'width': '95%', 'margin': '0 auto'}),
-                                            dcc.Graph(id='total-users-over-time', style={'width': '95%', 'margin': '0 auto'}),
-                                            dcc.Graph(id='user-logins-per-day', style={'width': '95%','margin': '0 auto'}),
+                                            dcc.Graph(id='rec-clicks-per-day', relayoutData= 'False', style={'width': '95%', 'margin': '0 auto'}),
+                                            dcc.Graph(id='total-users-over-time', relayoutData= 'False', style={'width': '95%', 'margin': '0 auto'}),
+                                            dcc.Graph(id='user-logins-per-day', relayoutData= 'False', style={'width': '95%','margin': '0 auto'}),
 
                                             dcc.Interval(id='interval-component',
                                                          # update graphs every interval = 1 hour = 3600000 milliseconds
