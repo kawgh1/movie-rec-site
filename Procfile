@@ -1,1 +1,1 @@
-web gunicorn run:flask_app
+web: gunicorn run:flask_app runserver 0.0.0.0:5000
