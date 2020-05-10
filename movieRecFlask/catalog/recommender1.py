@@ -14,7 +14,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-
+cos_sim_list = []
 
 # CSR Matrix for Recommender method
 from scipy.sparse import csr_matrix
@@ -177,6 +177,12 @@ def recommender_final(movie_name):
     for element in sorted_similar_movies[0:5]:
         movie = get_title_from_index(element[0])
         movie_list.append(movie)
+        sim_score = element[1]
+        # convert score to percentage
+        sim_score = sim_score * 100
+        sim_score = round(sim_score, 2)
+
+        cos_sim_list.append(sim_score)
 
 
     # remove duplicates of the same movie recommendations in the output
@@ -241,7 +247,7 @@ def get_scores(movie_name):
     movie_list = []
 
     #     print("The top 5 similar movies to " +full_movie_name+ " are:  ")
-    for element in sorted_similar_movies[0:20]:
+    for element in sorted_similar_movies[0:5]:
 
         # if the item in the sorted_similiar movies has the same index (is the same movie)
         # as the movie user searched for...
