@@ -71,11 +71,11 @@ with flask_app.app_context():
         if not User.query.filter_by(user_name='harry').first():
                 User.create_user(user='harry', email='harry@potters.com', password='secret')
 
-            if not RecsClicks.query.filter_by(user_id=0).first():
-                RecsClicks.record_getrecs(user_id=0, movie_id=0, movie='None')
+        if not RecsClicks.query.filter_by(user_id=0).first():
+            RecsClicks.record_getrecs(user_id=0, movie_id=0, movie='None')
 
-            if not Logins.query.filter_by(userid=0).first():
-                Logins.record_login(userid=0)
+        if not Logins.query.filter_by(userid=0).first():
+            Logins.record_login(userid=0)
     except exc.IntegrityError:
         flask_app.run()
 
