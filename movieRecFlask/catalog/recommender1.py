@@ -62,9 +62,11 @@ df_avg_movie_ratings = s.to_frame()
 
 # merge tags and movies dataframes
 # outer join tags and movies to keep all movies recommendable
-movies_with_tags= pd.merge(df_tags, df_movies, on=['movieId'], how= 'outer')
+# movies_with_tags= pd.merge(df_tags, df_movies, on=['movieId'], how= 'outer')
 # fill columns with NaN values for their appropriate data type
 # df[['a', 'b']] = df[['a','b']].fillna(value=0)
+
+movies_with_tags= pd.merge(df_tags, df_movies, on=['movieId'])
 
 movies_with_tags['tag'] = movies_with_tags['tag'].fillna(' ')
 movies_with_tags['genres'] = movies_with_tags['genres'].fillna(' ')
@@ -106,6 +108,10 @@ count_matrix = cv.fit_transform(movies_with_tags['combined_features'])
 # cosine_sim = cosine_similarity(count_matrix)
 # # print (cosine_sim)
 
+# Compute the Cosine Similarity based on Count_Matrix
+cosine_sim = cosine_similarity(count_matrix)
+# print (cosine_sim)
+
 # helper function to get the movie title of the index of movies_with_tags
 # this index is unique to the table is nothing to do with the title or movieId
 def get_title_from_index(index):
@@ -116,9 +122,7 @@ def get_title_from_index(index):
 def recommender_final(movie_name):
 
 
-    # Compute the Cosine Similarity based on Count_Matrix
-    cosine_sim = cosine_similarity(count_matrix)
-    # print (cosine_sim)
+
 
 
 
