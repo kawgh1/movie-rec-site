@@ -70,7 +70,7 @@ movies_with_tags['tag'] = movies_with_tags['tag'].fillna(' ')
 movies_with_tags['genres'] = movies_with_tags['genres'].fillna(' ')
 
 movies_with_tags['userId'] = movies_with_tags['userId'].fillna(0.0)
-movies_with_tags['userId'] = movies_with_tags['userId'].astype(int)
+movies_with_tags['userId'] = movies_with_tags['userId'].apply(np.int32)
 # make sure userId column is ints and not floats for the database
 
 
