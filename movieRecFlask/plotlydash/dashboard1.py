@@ -16,6 +16,7 @@ from dash.dependencies import Input, Output
 from dash.exceptions import PreventUpdate
 
 from movieRecFlask.plotlydash import dashdata
+import requests
 
 
 
