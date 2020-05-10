@@ -81,7 +81,6 @@ class RecsClicks(recommender_db.Model):
         self.movie_id=movie_id
         self.movie = movie
 
-
     def __repr__(self):
         return 'Get Recs by {} for movie {} with movieID {}'.format(self.user_id, self.movie, self.movie_id)
 
