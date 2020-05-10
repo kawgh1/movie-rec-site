@@ -22,6 +22,7 @@ def data():
 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/home', methods=['GET', 'POST'])
+@main.route('/index', methods=['GET', 'POST'])
 def hello():
     form = GetRecsForm()
     rating_list = []

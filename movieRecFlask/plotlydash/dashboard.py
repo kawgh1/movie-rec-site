@@ -39,7 +39,7 @@ def create_dashboard(server):
     url = os.environ['DATABASE_URL']
 
     ##################################################################
-    # - LOCAL HOST SETTINGS - check settings in dashboard.py as well
+    # - LOCAL HOST SETTINGS - check settings in run.py as well
     ##################################################################
     # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/recommender_db'
     ###################################################################
