@@ -45,7 +45,7 @@ df_ratings = pd.read_csv('movieRecFlask/catalog/data/ratings.csv', usecols=['use
 
 
 df_tags = pd.read_csv('movieRecFlask/catalog/data/tags.csv', usecols=['userId', 'movieId', 'tag'],
-                         dtype={'userId': 'int32', 'movieId': 'int32', 'tag': 'str'})
+                      dtype={'userId': 'int32', 'movieId': 'int32', 'tag': 'str'})
 
 
 
