@@ -14,7 +14,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-cos_sim_list = []
+global cos_sim_list
 
 # CSR Matrix for Recommender method
 from scipy.sparse import csr_matrix
@@ -120,14 +120,6 @@ def get_title_from_index(index):
 
 # Return the index of the movie_name in the movies_with_tags table
 def recommender_final(movie_name):
-
-
-
-
-
-
-    list_of_movie_indexes = []
-    cos_sim_list = []
 
     # This only returns the first index matched to the movie_name input
     # but there are multiple indexes for the same movie in movies_with_tags
