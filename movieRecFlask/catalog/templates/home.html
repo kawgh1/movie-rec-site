@@ -1,0 +1,22 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+            <div class="container fluid">
+                  <!-- Display Movie Recommendations -->
+                <h3 class="form"> Movies to Watch </h3>
+                <hr>
+
+                <p>Recommendations based on 100,000 reviews of over 10,000 movies!</p>
+
+                <!-- make a field that takes a movie title, a button "get recs!" that runs the recommender function,
+                        then displays list of movie recs -->
+
+                {{ wtf.quick_form(form) }}
+
+                {{ form.hidden_tag() }}
+            </div>
+{% endblock %}
