@@ -96,12 +96,14 @@ movies_with_tags= pd.merge(df_tags, df_movies, on=['movieId'], how= 'outer')
 # df[['a', 'b']] = df[['a','b']].fillna(value=0)
 
 movies_with_tags[['tag']] = movies_with_tags[['tag']].fillna('')
+movies_with_tags[['userId']] = movies_with_tags[['userId']].fillna(0.0)
+movies_with_tags[['genres']] = movies_with_tags[['genres']].fillna('')
 
 
 # Selecting features from tags and genres
 
 features = ['tag', 'genres']
-# Replace all NaN values with a Space
+# Replace all NaN values with a empty string
 for feature in features:
     movies_with_tags[feature] = movies_with_tags[feature].fillna('')
 
