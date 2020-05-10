@@ -165,7 +165,7 @@ def recommender_final(movie_name):
     movie_list = []
 
     #     print("The top 5 similar movies to " +full_movie_name+ " are:  ")
-    for element in sorted_similar_movies[0:20]:
+    for element in sorted_similar_movies[0:10]:
 
         # if the item in the sorted_similiar movies has the same index (is the same movie)
         # as the movie user searched for...
