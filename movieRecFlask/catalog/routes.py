@@ -45,11 +45,11 @@ def hello():
 
             # Get Recs clicks are recorded in RecsClicks Table in postgres
 
-            RecsClicks.record_getrecs(
-                user_id=user_id,
-                movie_id=movie_id,
-                movie=movie_name
-            )
+            # RecsClicks.record_getrecs(
+            #     user_id=user_id,
+            #     movie_id=movie_id,
+            #     movie=movie_name
+            # )
 
             # This commented section is deprecated
             #
@@ -94,11 +94,11 @@ def hello():
 
             # Get Recs clicks are recorded in RecsClicks Table in postgres
 
-            RecsClicks.record_getrecs(
-                user_id=user_id,
-                movie_id=movie_id,
-                movie=movie_name
-            )
+            # RecsClicks.record_getrecs(
+            #     user_id=user_id,
+            #     movie_id=movie_id,
+            #     movie=movie_name
+            # )
 
             # This commented section is deprecated
             #
