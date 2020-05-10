@@ -180,7 +180,14 @@ def get_movie_compatibility_score(movie_name):
 
     return distance_list
 
-
+#############################################################################
+# The website calculates each movie average rating manually
+# It would be more efficient to have a 'movie average table' to retrieve from
+# However, calculating the average rating of 10,000 movies
+# at 1-3 seconds per movies average
+# takes approximately 5-7 hours on my machine.
+# Putting this calculation on the front end time was the tradeoff
+################################################################################
 def get_movie_avg(movie_name):
     index = process.extractOne(movie_name, df_movies['title'])[2]
     # print("Movie Selected:  ", df_movies['title'][index], 'Index:  ', index)

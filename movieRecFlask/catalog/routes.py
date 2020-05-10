@@ -1,19 +1,13 @@
 # MovieRecSite/catalog/routes.py
-from movieRecFlask.catalog import main, recommender
+from movieRecFlask.catalog import main, recommender1
 from movieRecFlask.catalog.forms import GetRecsForm
 from flask_login import current_user
 from movieRecFlask.catalog.models import UserMovies, RecsClicks
 
-from flask import render_template, flash, request, redirect, url_for
+from flask import render_template, flash
 from flask_login import login_required
 
 # for dashboard visualization data
-from movieRecFlask.plotlydash import dashdata, dashboard
-import csv
-from datetime import datetime
-from datetime import date
-
-
 
 
 @main.route('/about', methods=['GET', 'POST'])
@@ -42,11 +36,11 @@ def hello():
         if form.validate_on_submit():
             movie_name = form.movie_name.data
 
-            movie_list = recommender.recommender_final(movie_name)
+            movie_list = recommender1.recommender_final(movie_name)
 
-            movie_id = recommender.get_movie_id(movie_name)
+            movie_id = recommender1.get_movie_id(movie_name)
 
-            scores_list = recommender.get_movie_compatibility_score(movie_name)
+            scores_list = recommender1.get_scores(movie_name)
 
             # avg_rating = recommender.get_movie_avg(movie_name)
             #
@@ -73,7 +67,7 @@ def hello():
             #     csv_writer.writerow(row)
 
             for movie in movie_list:
-                rating_list.append(recommender.get_movie_avg(movie))
+                rating_list.append(recommender1.get_movie_avg(movie))
 
             # if user logged in and requests recommendation
             return render_template('movies2.html',  movies=movie_list, scores_list=scores_list,
@@ -91,11 +85,11 @@ def hello():
         if form.validate_on_submit():
             movie_name = form.movie_name.data
 
-            movie_list = recommender.recommender_final(movie_name)
+            movie_list = recommender1.recommender_final(movie_name)
 
-            movie_id = recommender.get_movie_id(movie_name)
+            movie_id = recommender1.get_movie_id(movie_name)
 
-            scores_list = recommender.get_movie_compatibility_score(movie_name)
+            scores_list = recommender1.get_scores(movie_name)
 
             # avg_rating = recommender.get_movie_avg(movie_name)
             #
@@ -122,7 +116,7 @@ def hello():
             #     csv_writer.writerow(row)
 
             for movie in movie_list:
-                rating_list.append(recommender.get_movie_avg(movie))
+                rating_list.append(recommender1.get_movie_avg(movie))
 
             return render_template('movies2.html', movies=movie_list, scores_list=scores_list,
                                    ratings=rating_list, form=form)
