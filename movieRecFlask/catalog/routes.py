@@ -6,7 +6,7 @@ from movieRecFlask.catalog.models import UserMovies, RecsClicks
 
 from flask import render_template, flash
 from flask_login import login_required
-import requests
+
 
 # for dashboard visualization data
 

@@ -6,6 +6,8 @@ from movieRecFlask.auth.models import User, Logins
 from movieRecFlask.catalog.models import RecsClicks
 from movieRecFlask.plotlydash.dashboard1 import create_dashboard
 
+
+
 from flask_talisman import Talisman
 
 from sqlalchemy import exc
@@ -22,8 +24,6 @@ from flask_sqlalchemy import SQLAlchemy
 ################################################################
 
 flask_app = create_app('prod')
-
-
 
 with flask_app.app_context():
 
@@ -113,6 +113,4 @@ with flask_app.app_context():
 #         # Dash app functions require these tables above before it can be initiliazed
 #         dash_app = create_dashboard(flask_app)
 #
-#
-#
-#         flask_app.run(debug=True)
+#         flask_app.run( debug=True)

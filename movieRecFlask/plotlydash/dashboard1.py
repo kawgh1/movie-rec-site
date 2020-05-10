@@ -156,7 +156,7 @@ def create_dashboard(server):
             # These Navlinks need to be coded with 'external_link=True'
             # Otherwise, Dash will not link out of itself back to the Flask app/website
             dbc.NavItem(dbc.NavLink("Home", external_link=True, href="/home")),
-            dbc.NavItem(dbc.NavLink("Dashboard", external_link=True, href="https://hr-movie-rec-site.herokuapp.com/dashapp/")),
+            dbc.NavItem(dbc.NavLink("Dashboard", external_link=True, href="/dashapp/")),
             dbc.NavItem(dbc.NavLink("About", external_link=True, href="/about")),
             dbc.NavItem(dbc.NavLink("Data", external_link=True, href="/data")),
             # Not using this, saving for reference
