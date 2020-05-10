@@ -16,7 +16,7 @@ from dash.dependencies import Input, Output
 from dash.exceptions import PreventUpdate
 
 from movieRecFlask.plotlydash import dashdata
-import requests
+
 
 
 
@@ -209,7 +209,7 @@ def create_dashboard(server):
     # main site routes
     @dash_app.callback(Output('rec-clicks-per-day', 'figure'),
                   [Input('interval-component', 'n_intervals')])
-    def update_graph(n=24):
+    def update_graph(n):
 
 
         fig = {
@@ -238,7 +238,7 @@ def create_dashboard(server):
 
     @dash_app.callback(Output('total-users-over-time', 'figure'),
                        [Input('interval-component', 'n_intervals')])
-    def update_graph1(n=24):
+    def update_graph1(n):
         fig = {
             'data': [
                 go.Scatter(
@@ -262,7 +262,7 @@ def create_dashboard(server):
 
     @dash_app.callback(Output('user-logins-per-day', 'figure'),
                        [Input('interval-component', 'n_intervals')])
-    def update_graph2(n=24):
+    def update_graph2(n):
         fig = {
             'data': [
                 go.Bar(
