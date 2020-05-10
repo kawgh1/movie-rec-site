@@ -35,20 +35,20 @@ def create_dashboard(server):
     ##########################################################
     # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     ##########################################################
-    import os
-    url = os.environ['DATABASE_URL']
+    # import os
+    # url = os.environ['DATABASE_URL']
 
     ##################################################################
     # - LOCAL HOST SETTINGS - check settings in run.py as well
     ##################################################################
     # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/recommender_db'
     ###################################################################
-    # user = 'postgres'
-    # password = 'password'
-    # host ='localhost'
-    # port ='5432'
-    # db = 'recommender_db'
-    # url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
+    user = 'postgres'
+    password = 'password'
+    host ='localhost'
+    port ='5432'
+    db = 'recommender_db'
+    url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
 
 
 
@@ -188,9 +188,9 @@ def create_dashboard(server):
 
                                     html.Div([
                                             # graphs
-                                            dcc.Graph(id='rec-clicks-per-day', relayoutData= False, style={'width': '95%', 'margin': '0 auto'}),
-                                            dcc.Graph(id='total-users-over-time', relayoutData= False, style={'width': '95%', 'margin': '0 auto'}),
-                                            dcc.Graph(id='user-logins-per-day', relayoutData= False, style={'width': '95%','margin': '0 auto'}),
+                                            dcc.Graph(id='rec-clicks-per-day', relayoutData=False, style={'width': '95%', 'margin': '0 auto'}),
+                                            dcc.Graph(id='total-users-over-time', relayoutData=False, style={'width': '95%', 'margin': '0 auto'}),
+                                            dcc.Graph(id='user-logins-per-day', relayoutData=False, style={'width': '95%','margin': '0 auto'}),
 
                                             dcc.Interval(id='interval-component',
                                                          # update graphs every interval = 1 hour = 3600000 milliseconds
@@ -214,15 +214,11 @@ def create_dashboard(server):
 
         fig = {
             'data': [
-                go.Scatter(
+                go.Bar(
                     x=total_get_recs_rows_x(),
                     # y=df['userId'],
                     y=total_get_recs_rows_y(),
-                    mode='markers',
-                    marker={
-                        'color': 'salmon',
-                        'size': 20
-                    }
+                    marker_color='salmon'
                     # marker=dict(
                     #     line=dict(
                     #         width=35)),
