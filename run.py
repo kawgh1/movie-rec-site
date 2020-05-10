@@ -39,10 +39,12 @@ with flask_app.app_context():
         if not Logins.query.filter_by(userid=0).first():
             Logins.record_login(userid=0)
 
-        # Dash app functions require these tables below before it can be initiliazed
-        dash_app = create_dashboard(flask_app)
+
 
     except exc.IntegrityError:
+
+        # Dash app functions require these tables below before it can be initiliazed
+        dash_app = create_dashboard(flask_app)
 
         flask_app.run(debug=False)
 
