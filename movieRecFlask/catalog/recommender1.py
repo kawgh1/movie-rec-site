@@ -56,36 +56,6 @@ s = pd.Series(rating_averages)
 
 df_avg_movie_ratings = s.to_frame()
 
-
-# return movie_average that user searched for
-def get_movie_avg(movie_name):
-
-    full_movie_name = process.extractOne(movie_name, df_movies['title'])[0]
-
-    movie_avg = df_avg_movie_ratings[df_avg_movie_ratings.index == full_movie_name].values[0][0]
-
-    movie_avg = round(movie_avg, 2)
-
-    # print('movie is ', full_movie_name)
-
-    return movie_avg
-
-
-# get_movie_avg("xXx")
-
-### Auxillary methods to get movie rating average
-
-def get_movie_id(movie_name):
-
-    index = process.extractOne(movie_name, df_movies['title'])[2]
-
-    movie_id = df_movies['movieId'][index]
-
-    movie_id = int(movie_id)
-
-    return movie_id
-
-############################################
 # Section for getting recommendations by cosine similarity of
 # movie tags and genres
 
@@ -99,7 +69,7 @@ movies_with_tags= pd.merge(df_tags, df_movies, on=['movieId'], how= 'outer')
 movies_with_tags[['tag']] = movies_with_tags[['tag']].fillna('')
 movies_with_tags[['userId']] = movies_with_tags[['userId']].fillna(0)
 # make sure userId column is ints and not floats for the database
-movies_with_tags['userId'] = movies_with_tags['userId'].apply(np.int64)
+movies_with_tags['userId'] = movies_with_tags['userId'].astype(int)
 
 movies_with_tags[['genres']] = movies_with_tags[['genres']].fillna('')
 
@@ -277,45 +247,32 @@ def get_scores(movie_name):
     return cos_sim_list
 
 
+# return movie_average that user searched for
+def get_movie_avg(movie_name):
+
+    full_movie_name = process.extractOne(movie_name, df_movies['title'])[0]
+
+    movie_avg = df_avg_movie_ratings[df_avg_movie_ratings.index == full_movie_name].values[0][0]
+
+    movie_avg = round(movie_avg, 2)
+
+    # print('movie is ', full_movie_name)
+
+    return movie_avg
 
 
+# get_movie_avg("xXx")
 
-#
-# def get_movie_avg(movie_name):
-#     index = process.extractOne(movie_name, df_movies['title'])[2]
-#     # print("Movie Selected:  ", df_movies['title'][index], 'Index:  ', index)
-#     # print("getting avg....")
-#
-#     movie_id = df_movies['movieId'][index]
-#
-#     # print('Movie ID ', movie_id, 'Index: ', index)
-#
-#     # df.loc[df['column_name'] == some_value]
-#
-#     # ratings = all the rows of df_rating where movieId == movie_id of movie searched for
-#     ratings = df_ratings.loc[df_ratings['movieId'] == movie_id]
-#     # ratings_sum = sum of all the numerical ratings for our movie
-#     ratings_sum = ratings['rating'].sum()
-#     # count = how many rows are in ratings
-#     count = len(ratings.index)
-#
-#     average_rating = (ratings_sum) / count
-#
-#     final_avg = round(average_rating, 2)
-#
-#     #     print(df_ratings.loc[df_ratings['movieId'] == movie_id])
-#     #     print('Count = ', count)
-#     #     print('ratings sum = ', ratings_sum)
-#     #     print('average rating = ', final_avg)
-#
-#     # executive decision - if a movie has less than 2 ratings
-#     # return the average movie rating to equal '3' due to lack of
-#     # a meaningful average
-#     # I don't want a movie with 1 review of '5' next to a movie with 100 reviews at '4.25'
-#
-#     # if count < 2:
-#     #     final_avg = 3.0
-#
-#     return final_avg
-#
-# ##############################################################
+### Auxillary methods to get movie rating average
+
+def get_movie_id(movie_name):
+
+    index = process.extractOne(movie_name, df_movies['title'])[2]
+
+    movie_id = df_movies['movieId'][index]
+
+    movie_id = int(movie_id)
+
+    return movie_id
+
+############################################

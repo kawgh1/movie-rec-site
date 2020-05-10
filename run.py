@@ -23,7 +23,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 flask_app = create_app('prod')
 
-Talisman(flask_app)
 
 with flask_app.app_context():
 
@@ -87,9 +86,11 @@ with flask_app.app_context():
 ###################################################################
 # - LOCAL HOST SETTINGS - check settings in dashboard1.py as well
 ###################################################################
-
+#
 # if __name__ == '__main__':
 #     flask_app = create_app('dev')
+#
+#     #Talisman(flask_app)
 #
 #     with flask_app.app_context():
 #
