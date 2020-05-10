@@ -167,7 +167,7 @@ def page_not_found(error):
     return render_template('404.html'), 404
 
 
-# favicon.ico requests
-@main.route('/favicon.ico')
-def page_not_found(error):
-    return render_template('404.html'), 404
+# # favicon.ico requests
+# @main.route('/favicon.ico')
+# def page_not_found(error):
+#     return render_template('404.html'), 404

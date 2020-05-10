@@ -102,9 +102,9 @@ cv = CountVectorizer()
 count_matrix = cv.fit_transform(movies_with_tags['combined_features'])
 
 
-# Compute the Cosine Similarity based on Count_Matrix
-cosine_sim = cosine_similarity(count_matrix)
-# print (cosine_sim)
+# # Compute the Cosine Similarity based on Count_Matrix
+# cosine_sim = cosine_similarity(count_matrix)
+# # print (cosine_sim)
 
 # helper function to get the movie title of the index of movies_with_tags
 # this index is unique to the table is nothing to do with the title or movieId
@@ -114,6 +114,14 @@ def get_title_from_index(index):
 
 # Return the index of the movie_name in the movies_with_tags table
 def recommender_final(movie_name):
+
+
+    # Compute the Cosine Similarity based on Count_Matrix
+    cosine_sim = cosine_similarity(count_matrix)
+    # print (cosine_sim)
+
+
+
     list_of_movie_indexes = []
     cos_sim_list = []
 
