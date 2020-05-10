@@ -43,10 +43,6 @@ def hello():
 
             scores_list = recommender1.get_scores(movie_name)
 
-            # avg_rating = recommender.get_movie_avg(movie_name)
-            #
-            # movie_returned_from_df = recommender.get_movie_name(movie_name)
-
             # Get Recs clicks are recorded in RecsClicks Table in postgres
 
             RecsClicks.record_getrecs(
