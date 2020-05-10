@@ -6,6 +6,7 @@ from movieRecFlask.auth.models import User, Logins
 from movieRecFlask.catalog.models import RecsClicks
 from movieRecFlask.plotlydash.dashboard1 import create_dashboard
 
+from flask_sslify import SSLify
 
 from sqlalchemy import exc
 
@@ -21,6 +22,8 @@ from flask_sqlalchemy import SQLAlchemy
 ################################################################
 
 flask_app = create_app('prod')
+
+sslify = SSLify(flask_app)
 
 with flask_app.app_context():
 
