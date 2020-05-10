@@ -23,6 +23,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 flask_app = create_app('prod')
 
+Talisman(flask_app)
 
 with flask_app.app_context():
 
@@ -86,11 +87,11 @@ with flask_app.app_context():
 ###################################################################
 # - LOCAL HOST SETTINGS - check settings in dashboard1.py as well
 ###################################################################
-#
+
 # if __name__ == '__main__':
 #     flask_app = create_app('dev')
 #
-#     #Talisman(flask_app)
+#
 #
 #     with flask_app.app_context():
 #
@@ -111,5 +112,7 @@ with flask_app.app_context():
 #
 #         # Dash app functions require these tables above before it can be initiliazed
 #         dash_app = create_dashboard(flask_app)
+#
+#
 #
 #         flask_app.run(debug=True)

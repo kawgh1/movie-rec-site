@@ -156,7 +156,7 @@ def create_dashboard(server):
             # These Navlinks need to be coded with 'external_link=True'
             # Otherwise, Dash will not link out of itself back to the Flask app/website
             dbc.NavItem(dbc.NavLink("Home", external_link=True, href="/home")),
-            dbc.NavItem(dbc.NavLink("Dashboard", href="/dashapp/")),
+            dbc.NavItem(dbc.NavLink("Dashboard", external_link=True, href="https://hr-movie-rec-site.herokuapp.com/dashapp/")),
             dbc.NavItem(dbc.NavLink("About", external_link=True, href="/about")),
             dbc.NavItem(dbc.NavLink("Data", external_link=True, href="/data")),
             # Not using this, saving for reference
@@ -209,7 +209,7 @@ def create_dashboard(server):
     # main site routes
     @dash_app.callback(Output('rec-clicks-per-day', 'figure'),
                   [Input('interval-component', 'n_intervals')])
-    def update_graph(n):
+    def update_graph(n=24):
 
 
         fig = {
@@ -238,7 +238,7 @@ def create_dashboard(server):
 
     @dash_app.callback(Output('total-users-over-time', 'figure'),
                        [Input('interval-component', 'n_intervals')])
-    def update_graph1(n):
+    def update_graph1(n=24):
         fig = {
             'data': [
                 go.Scatter(
@@ -262,7 +262,7 @@ def create_dashboard(server):
 
     @dash_app.callback(Output('user-logins-per-day', 'figure'),
                        [Input('interval-component', 'n_intervals')])
-    def update_graph2(n):
+    def update_graph2(n=24):
         fig = {
             'data': [
                 go.Bar(

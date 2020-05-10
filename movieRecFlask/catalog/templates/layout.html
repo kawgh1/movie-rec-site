@@ -53,7 +53,8 @@
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="{{ url_for('main.hello') }}"><span class="glyphicon glyphicon-film"></span> Home </a></li>
-                            <li><a href="/dashapp/"><span class="glyphicon glyphicon-dashboard"></span> Dashboard </a></li>
+                            <!-- hard coding this link as it won't work without https -->
+                            <li><a href="https://hr-movie-rec-site.herokuapp.com/dashapp/"><span class="glyphicon glyphicon-dashboard"></span> Dashboard </a></li>
                             <li><a href="{{ url_for('main.about') }}"><span class="glyphicon glyphicon-pencil"></span> About </a></li>
                             <li><a href="{{ url_for('main.data') }}"><span class="glyphicon glyphicon-wrench"></span> Data </a></li>
                             <li><a href="{{ url_for('authentication.register_user') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
