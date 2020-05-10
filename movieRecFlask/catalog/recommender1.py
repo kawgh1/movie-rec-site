@@ -164,7 +164,7 @@ def recommender_final(movie_name):
         if element[0] in list_of_movie_indexes:
             sorted_similar_movies.remove(element)
 
-    for element in sorted_similar_movies[0:5]:
+    for element in sorted_similar_movies[0:6]:
         movie = get_title_from_index(element[0])
         movie_list.append(movie)
 
