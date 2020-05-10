@@ -1,10 +1,13 @@
 # MovieRecSite/catalog/routes.py
+from werkzeug.exceptions import abort
+from werkzeug.utils import redirect
+
 from movieRecFlask.catalog import main, recommender1
 from movieRecFlask.catalog.forms import GetRecsForm
 from flask_login import current_user
 from movieRecFlask.catalog.models import UserMovies, RecsClicks
 
-from flask import render_template, flash
+from flask import render_template, flash, request
 from flask_login import login_required
 import requests
 
@@ -25,6 +28,12 @@ def data():
 @main.route('/home', methods=['GET', 'POST'])
 @main.route('/index', methods=['GET', 'POST'])
 def hello():
+    if request.url.startswith('http://'):
+        return redirect(request.url.replace('http', 'https', 1)
+                        .replace('080', '443', 1))
+    elif request.url.startswith('https://'):
+        return 'Hello HTTPS World!'
+    abort(500)
     form = GetRecsForm()
     return render_template('home.html', form=form)
 
