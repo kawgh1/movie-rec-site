@@ -106,10 +106,10 @@ movies_with_tags[['genres']] = movies_with_tags[['genres']].fillna('')
 
 # Selecting features from tags and genres
 
-features = ['tag', 'genres']
-# Replace all NaN values with a empty string
-for feature in features:
-    movies_with_tags[feature] = movies_with_tags[feature].fillna('')
+# features = ['tag', 'genres']
+# # Replace all NaN values with a empty string
+# for feature in features:
+#     movies_with_tags[feature] = movies_with_tags[feature].fillna('')
 
 
 # Create a function that combine all selected Features
