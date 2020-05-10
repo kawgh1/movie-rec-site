@@ -47,9 +47,11 @@ def hello():
 
             movie_list = recommender1.recommender_final(movie_name)
 
+            scores_list = recommender1.get_scores(movie_name)
+
             movie_id = recommender1.get_movie_id(movie_name)
 
-            scores_list = recommender1.cos_sim_list
+
 
             # Get Recs clicks are recorded in RecsClicks Table in postgres
 
@@ -92,9 +94,11 @@ def hello():
 
             movie_list = recommender1.recommender_final(movie_name)
 
+            scores_list = recommender1.get_scores(movie_name)
+
             movie_id = recommender1.get_movie_id(movie_name)
 
-            scores_list = recommender1.cos_sim_list
+
 
             # avg_rating = recommender.get_movie_avg(movie_name)
             #
