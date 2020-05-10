@@ -241,7 +241,7 @@ def get_scores(movie_name):
         if element[0] in list_of_movie_indexes:
             sorted_similar_movies.remove(element)
 
-    for element in sorted_similar_movies[0:6]:
+    for element in sorted_similar_movies[0:10]:
         sim_score = element[1]
         # convert score to percentage
         sim_score = sim_score*100

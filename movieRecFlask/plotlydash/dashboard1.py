@@ -214,11 +214,15 @@ def create_dashboard(server):
 
         fig = {
             'data': [
-                go.Bar(
+                go.Scatter(
                     x=total_get_recs_rows_x(),
                     # y=df['userId'],
                     y=total_get_recs_rows_y(),
-                    marker_color='salmon'
+                    mode='markers',
+                    marker={
+                        'color': 'salmon',
+                        'size': 20
+                    }
                     # marker=dict(
                     #     line=dict(
                     #         width=35)),
