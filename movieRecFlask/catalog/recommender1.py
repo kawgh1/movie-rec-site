@@ -258,13 +258,19 @@ def get_movie_avg(movie_name):
 
     full_movie_name = process.extractOne(movie_name, df_movies['title'])[0]
 
-    movie_avg = df_avg_movie_ratings[df_avg_movie_ratings.index == full_movie_name].values[0][0]
+    # Not all movies had ratings
+    if full_movie_name in df_avg_movie_ratings.index:
 
-    movie_avg = round(movie_avg, 2)
+        movie_avg = df_avg_movie_ratings[df_avg_movie_ratings.index == full_movie_name].values[0][0]
 
-    # print('movie is ', full_movie_name)
+        movie_avg = round(movie_avg, 2)
 
-    return movie_avg
+        # print('movie is ', full_movie_name)
+
+        return movie_avg
+
+    else:
+        return 'None'
 
 
 # get_movie_avg("xXx")
