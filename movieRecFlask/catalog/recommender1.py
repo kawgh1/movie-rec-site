@@ -25,8 +25,6 @@ from sklearn.neighbors import NearestNeighbors
 
 # 1. Preparing our data
 # Create DataFrames
-# df_movies = pd.read_csv('movieRecFlask/catalog/data/movies.csv')
-# df_ratings = pd.read_csv('movieRecFlask/catalog/data/ratings.csv')
 
 # For df_movies DataFrame use only 'movieId' and 'title' columns
 df_movies = pd.read_csv('movieRecFlask/catalog/data/movies.csv', usecols=['movieId', 'title', 'genres'],
@@ -34,8 +32,6 @@ df_movies = pd.read_csv('movieRecFlask/catalog/data/movies.csv', usecols=['movie
 
 # Break apart 'genres' into separate words for Feature Analysis
 df_movies['genres'] = df_movies['genres'].str.replace("|", " ", 20)
-
-# print(df_movies.head(10))
 
 # For df_ratings DataFrame use only 'userId' and 'movieId' and 'rating' columns
 df_ratings = pd.read_csv('movieRecFlask/catalog/data/ratings.csv', usecols=['userId', 'movieId', 'rating'],
@@ -64,7 +60,7 @@ df_avg_movie_ratings = s.to_frame()
 # fill columns with NaN values for their appropriate data type
 # df[['a', 'b']] = df[['a','b']].fillna(value=0)
 
-movies_with_tags= pd.merge(df_tags, df_movies, on=['movieId'])
+movies_with_tags = pd.merge(df_tags, df_movies, on=['movieId'])
 
 movies_with_tags['tag'] = movies_with_tags['tag'].fillna(' ')
 movies_with_tags['genres'] = movies_with_tags['genres'].fillna(' ')
@@ -101,12 +97,7 @@ movies_with_tags['combined_features'] = movies_with_tags.apply(combine_features,
 cv = CountVectorizer()
 count_matrix = cv.fit_transform(movies_with_tags['combined_features'])
 
-
-# # Compute the Cosine Similarity based on Count_Matrix
-# cosine_sim = cosine_similarity(count_matrix)
-# # print (cosine_sim)
-
-# Compute the Cosine Similarity based on Count_Matrix
+# Compute the Cosine Similarity based on count_matrix
 cosine_sim = cosine_similarity(count_matrix)
 # print (cosine_sim)
 
@@ -116,39 +107,29 @@ def get_title_from_index(index):
     return movies_with_tags[movies_with_tags.index == index]["title"].values[0]
 
 
-# Return the index of the movie_name in the movies_with_tags table
+
 def recommender_final(movie_name):
 
     # This only returns the first index matched to the movie_name input
     # but there are multiple indexes for the same movie in movies_with_tags
     movie_index = process.extractOne(movie_name, movies_with_tags['title'])[2]
-    full_movie_name = process.extractOne(movie_name, df_movies['title'])[0]
+    # match the entered movie titled to the format and closest string match to that found in
+    # movies_with_tags table
+    full_movie_name = process.extractOne(movie_name, movies_with_tags['title'])[0]
 
-    # need to make a list of movie_indexes of the movie_name
-
-    #     for index in movies_with_tags[movies_with_tags['title'].str.startswith(full_movie_name)]:
-
-    #         list_of_movie_indexes.append(index)
-
-    #     print(list_of_movie_indexes)
-
+    # make a list of movie_indexes of the movie_name
     temp_index_df = movies_with_tags[movies_with_tags['title'].str.startswith(full_movie_name)]
 
     list_of_movie_indexes = list(temp_index_df.index)
-    #     print(list_of_movie_indexes)
-
-    #     print("movie_index in movies_with_tags = ", movie_index)
 
     # go inside of Cosine_matrix and enumerate it
-    # similar movies is list of are the indexes of similar movies inside the movies_with_tags table
+    # similar_movies is unsorted list of the indexes[0] and their cosine scores[1] inside the movies_with_tags table
     similar_movies = list(enumerate(cosine_sim[movie_index]))
     # print(len(similar_movies))
 
     # Now we get the sorted list with most similar cosine similarity at top
     sorted_similar_movies = sorted(similar_movies, key=lambda x: x[1], reverse=True)[1:]
 
-    #     for item in sorted_similar_movies:
-    #         print(item)
 
     # Now we are printing the top 10 similar movies
 
@@ -175,7 +156,7 @@ def recommender_final(movie_name):
 
     # the HTML takes the first movie from the list as "movie selected"
     # So we're adding it back here at the front after operations
-    # The 1st recommendation wil still be the first recommendation
+    # The 1st recommendation will still be the first recommendation
     non_duplicates.insert(0, full_movie_name)
 
     #     print(non_duplicates)
@@ -257,7 +238,6 @@ def get_scores(movie_name):
 def get_movie_avg(movie_name):
 
     full_movie_name = process.extractOne(movie_name, df_movies['title'])[0]
-
     # Not all movies had ratings
     if full_movie_name in df_avg_movie_ratings.index:
 
@@ -273,7 +253,7 @@ def get_movie_avg(movie_name):
         return 'None'
 
 
-# get_movie_avg("xXx")
+# get_movie_avg("toy story")
 
 ### Auxillary methods to get movie rating average
 

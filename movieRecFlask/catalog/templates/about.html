@@ -19,12 +19,19 @@
 
                 <h3 class="form">How It Works</h3>
                 <hr>
-                <p>The recommender engine uses the Nearest Neighbors algorithm from the Machine Learning Python Library Sci-Kit Learn (sklearn.neighbors).
+                <p>The first recommender engine uses the Nearest Neighbors algorithm from the Machine Learning Python Library Sci-Kit Learn (sklearn.neighbors).
                 It is an unsupervised algorithm that in our case maps all of the ratings by each user in our data and turns them into vectors.
                 It then compares all of these vectors by measuring the angle between each vector.</p>
                 <p>When a user inputs a movie to receive recommendations, the algorithm takes that movie and compares it to all of
                 the vectors it has mapped, and returns the top movies within those vectors that most closely match the
                 user's movie.</p>
+
+                <p>The current recommender engine uses keyword count vectorization to map movies with listed genres and user defined
+                'tags' such as 'funny' or 'Australia'. The algorithm reads all of the keywords and maps the vectors of each
+                movie based on their keywords. It then uses cosine similarity to determine the most similar movies (vectors)
+                based on keywords!</p>
+
+
                 <p>Sometimes the recommendations are accurate and other times they do not appear to make any sense. Part of the reason for this
                 is due to the relatively narrow dataset used. The ratings are from 600 users. The average number of ratings per movie is 10 ratings
                     while the median number of ratings is 3 ratings.</p>
