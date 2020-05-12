@@ -71,7 +71,7 @@ with flask_app.app_context():
             User.create_user(user='harry', email='harry@potters.com', password='secret')
 
         if not RecsClicks.query.filter_by(user_id=0).first():
-            RecsClicks.record_getrecs(user_id=0, movie_id=0, movie='None')
+            RecsClicks.record_getrecs(user_id=0, movie_id=0, movie='None', comp_score=50.0)
 
         if not Logins.query.filter_by(userid=0).first():
             Logins.record_login(userid=0)
