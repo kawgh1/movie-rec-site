@@ -26,7 +26,7 @@ class User(UserMixin, recommender_db.Model):
     # in-built python methods
     # __init__() is called when new instances of a class are created, it initializes reference variables and attributes
     # __repr__() takes only 1 parameter, self, and returns a string representation of an instance,
-    #                this helps in formatting and producing a readble output of the data
+    #                this helps in formatting and producing a readable output of the data
 
     def __init__(self, user_name, user_email, user_password):
 

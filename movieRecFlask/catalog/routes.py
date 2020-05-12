@@ -48,6 +48,7 @@ def hello():
             movie_list = recommender1.recommender_final(movie_name)
 
             scores_list = recommender1.get_scores(movie_name)
+            comp_score = scores_list[0]
 
             movie_id = recommender1.get_movie_id(movie_name)
 
@@ -58,20 +59,9 @@ def hello():
             RecsClicks.record_getrecs(
                 user_id=user_id,
                 movie_id=movie_id,
-                movie=movie_name
+                movie=movie_name,
+                comp_score=comp_score
             )
-
-            # This commented section is deprecated
-            #
-            # # plotlydash/dashdata/recs-click.csv section
-            # # header = ['date', 'userId', 'movieId', 'titleSearched', 'titleReturned', 'avg-rating']
-            # # User ID == 0 is used for anonymous, not logged in users
-            # row = [date.today(), user_id, movie_id, movie_name, movie_returned_from_df, avg_rating]
-            #
-            # with open('movieRecFlask/plotlydash/dashdata/recs-clicked.csv', 'a', newline='', encoding='utf-8') as f:
-            #     csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            #     # csv_writer.writerow(header)
-            #     csv_writer.writerow(row)
 
             for movie in movie_list:
                 rating_list.append(recommender1.get_movie_avg(movie))
@@ -95,6 +85,7 @@ def hello():
             movie_list = recommender1.recommender_final(movie_name)
 
             scores_list = recommender1.get_scores(movie_name)
+            comp_score = scores_list[0]
 
             movie_id = recommender1.get_movie_id(movie_name)
 
@@ -109,20 +100,9 @@ def hello():
             RecsClicks.record_getrecs(
                 user_id=user_id,
                 movie_id=movie_id,
-                movie=movie_name
+                movie=movie_name,
+                comp_score=comp_score
             )
-
-            # This commented section is deprecated
-            #
-            # # plotlydash/dashdata/recs-click.csv section
-            # header = ['date', 'userId', 'movieId', 'titleSearched', 'titleReturned', 'avg-rating']
-            # # User ID == 0 is used for anonymous, not logged in users
-            # row = [date.today(), 0, movie_id, movie_name, movie_returned_from_df, avg_rating]
-            #
-            # with open('movieRecFlask/plotlydash/dashdata/recs-clicked.csv', 'a', newline='', encoding='utf-8') as f:
-            #     csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            #     # csv_writer.writerow(header)
-            #     csv_writer.writerow(row)
 
             for movie in movie_list:
                 rating_list.append(recommender1.get_movie_avg(movie))

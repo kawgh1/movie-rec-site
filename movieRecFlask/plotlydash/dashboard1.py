@@ -13,9 +13,6 @@ import numpy as np
 import dash_bootstrap_components as dbc
 # pip install dash-bootstrap-components
 from dash.dependencies import Input, Output
-from dash.exceptions import PreventUpdate
-
-from movieRecFlask.plotlydash import dashdata
 
 
 
@@ -29,6 +26,18 @@ from sqlalchemy import create_engine
 
 
 def create_dashboard(server):
+    ##################################################################
+    # - DEFAULT LOCAL HOST SETTINGS - check settings in run.py as well
+    ##################################################################
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/recommender_db'
+    ###################################################################
+    # user = 'postgres'
+    # password = 'password'
+    # host = 'localhost'
+    # port = '5432'
+    # db = 'recommender_db'
+    # url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
+
 
     ##########################################################
     # - WEB HOST SETTINGS - check settings in run.py as well
@@ -38,17 +47,8 @@ def create_dashboard(server):
     import os
     url = os.environ['DATABASE_URL']
 
-    ##################################################################
-    # - LOCAL HOST SETTINGS - check settings in run.py as well
-    ##################################################################
-    # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/recommender_db'
-    ###################################################################
-    # user = 'postgres'
-    # password = 'password'
-    # host ='localhost'
-    # port ='5432'
-    # db = 'recommender_db'
-    # url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
+# ------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 
 
 
@@ -68,10 +68,6 @@ def create_dashboard(server):
 
     # return the 'just_date' column
     def total_get_recs_rows_x():
-        # total users over time dataframe from postgres server
-        query = 'SELECT id, registration_date FROM users;'
-        df_users = pd.read_sql(query, con)
-
         # # get-recs-clicks dataframe
         query1 = 'SELECT date, user_id FROM recsclicks;'
         df_total_get_recs_rows = pd.read_sql(query1, con)
@@ -82,10 +78,6 @@ def create_dashboard(server):
 
     # return total_get_recs_rows which is # of rows in the table
     def total_get_recs_rows_y():
-        # total users over time dataframe from postgres server
-        query = 'SELECT id, registration_date FROM users;'
-        df_users = pd.read_sql(query, con)
-
         # # get-recs-clicks dataframe
         query1 = 'SELECT date, user_id FROM recsclicks;'
         df_total_get_recs_rows = pd.read_sql(query1, con)
@@ -148,7 +140,55 @@ def create_dashboard(server):
                                                                   df_total_get_logins_rows.userid]).size()
         return total_get_logins_rows
 
+    # ----------------------------------------------------------------------------------------------------
 
+    # return the 'just_date' column
+    def total_get_comp_rows_x():
+        # # get-recs-clicks dataframe
+        query3 = 'SELECT date, comp_score FROM recsclicks;'
+        df_total_get_comps_rows = pd.read_sql(query3, con)
+
+        # df_total_get_recs_rows['just_date'] = df_total_get_recs_rows['date'].dt.date
+
+        return df_total_get_comps_rows['date']
+
+        # return total_get_recs_rows which is # of rows in the table
+
+    def total_get_comp_rows_y():
+        # # get-recs-clicks dataframe
+        query1 = 'SELECT date, comp_score FROM recsclicks;'
+        df_total_get_comps_rows = pd.read_sql(query1, con)
+
+        # counter
+
+        # summary_ave_data = df.copy()
+        # summary_ave_data['average'] = summary_ave_data.mean(numeric_only=True, axis=1)
+        # summary_ave_data
+
+        #df_total_get_comps_rows['average_col'] = df_total_get_comps_rows[['comp_score']].mean(axis=1)
+        #df_total_get_comps_rows['average_col'] = df_total_get_comps_rows.rolling(window=5)['comp_score'].mean()
+
+        x = df_total_get_comps_rows.expanding(min_periods=1)['comp_score'].mean()
+
+        # sum1 = df_total_get_comps_rows['comp_score'].sum()
+        #
+        # #count1 = df_total_get_comps_rows['comp_score'].size
+        #
+        # count1 = len(df_total_get_comps_rows.index)
+        #
+        #
+        # count1 = float(count1)
+        #
+        # avg = sum1/count1
+        #
+        # final_avg = round(avg, 2)
+
+        #df_total_get_comps_rows['just_date'] = df_total_get_comps_rows['date'].dt.date
+
+        # total_get_recs_rows = df_total_get_comps_rows.groupby([df_total_get_comps_rows.just_date.index,
+        #                                                       df_total_get_comps_rows.user_id]).size()
+        #return df_total_get_comps_rows['average_col']
+        return x
 # Begin Dash Layout
 
     navbar = dbc.NavbarSimple(
@@ -189,8 +229,10 @@ def create_dashboard(server):
                                     html.Div([
                                             # graphs
                                             dcc.Graph(id='rec-clicks-per-day', relayoutData=False, style={'width': '95%', 'margin': '0 auto'}),
-                                            dcc.Graph(id='total-users-over-time', relayoutData=False, style={'width': '95%', 'margin': '0 auto'}),
+                                            dcc.Graph(id='average-comp-score-over-time', relayoutData=False, style={'width': '95%', 'margin': '0 auto'}),
+
                                             dcc.Graph(id='user-logins-per-day', relayoutData=False, style={'width': '95%','margin': '0 auto'}),
+                                            dcc.Graph(id='total-users-over-time', relayoutData=False, style={'width': '95%', 'margin': '0 auto'}),
 
                                             dcc.Interval(id='interval-component',
                                                          # update graphs every interval = 1 hour = 3600000 milliseconds
@@ -282,6 +324,29 @@ def create_dashboard(server):
                 title='Number of User Logins per day',
                 xaxis={'title': 'Date'},
                 yaxis={'title': 'Number of Logins'},
+                hovermode='closest'
+
+            )}
+        return fig
+
+    @dash_app.callback(Output('average-comp-score-over-time', 'figure'),
+                       [Input('interval-component', 'n_intervals')])
+    def update_graph2(n):
+        fig = {
+            'data': [
+                go.Scatter(
+                    x=total_get_comp_rows_x(),
+                    y=total_get_comp_rows_y(),
+                    marker=dict(
+                        line=dict(
+                            color='indigo',
+                            width=4)))
+
+            ],
+            'layout': go.Layout(
+                title='Average Compatibility Score Over Time',
+                xaxis={'title': 'Date'},
+                yaxis={'title': 'Avg Comp Score of Top Recommendation'},
                 hovermode='closest'
 
             )}

@@ -70,24 +70,27 @@ class RecsClicks(recommender_db.Model):
     user_id = recommender_db.Column(recommender_db.Integer)
     movie_id = recommender_db.Column(recommender_db.Integer)
     movie = recommender_db.Column(recommender_db.String(80), nullable=False)
+    comp_score = recommender_db.Column(recommender_db.Float)
 
     # in-built python methods
     # __init__() is called when new instances of a class are created, it initializes reference variables and attributes
     # __repr__() takes only 1 parameter, self, and returns a string representation of an instance,
     #                this helps in formatting and producing a readable output of the data
 
-    def __init__(self, user_id, movie_id, movie):
+    def __init__(self, user_id, movie_id, movie, comp_score):
         self.user_id = user_id
         self.movie_id=movie_id
         self.movie = movie
+        self.comp_score= comp_score
 
     def __repr__(self):
-        return 'Get Recs by {} for movie {} with movieID {}'.format(self.user_id, self.movie, self.movie_id)
+        return 'Get Recs by {} for movie {} with movieID {} and comp score {}'.format(
+            self.user_id, self.movie, self.movie_id, self.comp_score)
 
     @classmethod
-    def record_getrecs(cls, user_id, movie_id, movie):
+    def record_getrecs(cls, user_id, movie_id, movie, comp_score):
 
-        getrecsclick = cls(user_id=user_id, movie_id=movie_id, movie=movie)
+        getrecsclick = cls(user_id=user_id, movie_id=movie_id, movie=movie, comp_score=comp_score)
 
         recommender_db.session.add(getrecsclick)
         recommender_db.session.commit()
