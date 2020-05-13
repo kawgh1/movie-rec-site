@@ -31,12 +31,12 @@ def create_dashboard(server):
     ##################################################################
     # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/recommender_db'
     ###################################################################
-    # user = 'postgres'
-    # password = 'password'
-    # host = 'localhost'
-    # port = '5432'
-    # db = 'recommender_db'
-    # url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
+    user = 'postgres'
+    password = 'password'
+    host = 'localhost'
+    port = '5432'
+    db = 'recommender_db'
+    url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
 
 
     ##########################################################
@@ -44,8 +44,8 @@ def create_dashboard(server):
     ##########################################################
     # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     ##########################################################
-    import os
-    url = os.environ['DATABASE_URL']
+    # import os
+    # url = os.environ['DATABASE_URL']
 
 # ------------------------------------------------------------------------
 # ------------------------------------------------------------------------
@@ -88,16 +88,6 @@ def create_dashboard(server):
                                                               df_total_get_recs_rows.user_id]).size()
         return total_get_recs_rows
 
-
-
-
-
-
-
-    # # total users over time dataframe from postgres server
-    # query = 'SELECT id, registration_date FROM users;'
-    # df_users = pd.read_sql(query, con)
-
     def total_users_over_time_x():
         query = 'SELECT id, registration_date FROM users;'
         df_users = pd.read_sql(query, con)
@@ -109,15 +99,6 @@ def create_dashboard(server):
         df_users = pd.read_sql(query, con)
 
         return df_users['id']
-
-
-
-
-    # # logins dataframe method from psotgres
-
-    # df_logins = pd.read_csv('movieRecFlask/plotlydash/dashdata/logins.csv', parse_dates=['date'])
-    # total_get_logins_rows = df_logins.groupby([df_logins.date.index, df_logins.userId]).size()
-
 
     # return the 'just_date' column
     def total_get_logins_rows_x():
@@ -152,42 +133,15 @@ def create_dashboard(server):
 
         return df_total_get_comps_rows['date']
 
-        # return total_get_recs_rows which is # of rows in the table
+    # return the current average compatibility score all top 1 recommendations
 
     def total_get_comp_rows_y():
         # # get-recs-clicks dataframe
         query1 = 'SELECT date, comp_score FROM recsclicks;'
         df_total_get_comps_rows = pd.read_sql(query1, con)
 
-        # counter
-
-        # summary_ave_data = df.copy()
-        # summary_ave_data['average'] = summary_ave_data.mean(numeric_only=True, axis=1)
-        # summary_ave_data
-
-        #df_total_get_comps_rows['average_col'] = df_total_get_comps_rows[['comp_score']].mean(axis=1)
-        #df_total_get_comps_rows['average_col'] = df_total_get_comps_rows.rolling(window=5)['comp_score'].mean()
-
         x = df_total_get_comps_rows.expanding(min_periods=1)['comp_score'].mean()
 
-        # sum1 = df_total_get_comps_rows['comp_score'].sum()
-        #
-        # #count1 = df_total_get_comps_rows['comp_score'].size
-        #
-        # count1 = len(df_total_get_comps_rows.index)
-        #
-        #
-        # count1 = float(count1)
-        #
-        # avg = sum1/count1
-        #
-        # final_avg = round(avg, 2)
-
-        #df_total_get_comps_rows['just_date'] = df_total_get_comps_rows['date'].dt.date
-
-        # total_get_recs_rows = df_total_get_comps_rows.groupby([df_total_get_comps_rows.just_date.index,
-        #                                                       df_total_get_comps_rows.user_id]).size()
-        #return df_total_get_comps_rows['average_col']
         return x
 # Begin Dash Layout
 
@@ -239,14 +193,12 @@ def create_dashboard(server):
                                                          interval=3600000,
                                                          n_intervals=0),
 
-
-
                                     ])
 
                                 ])
 
-    # The three callbacks below continuously update the graphs above
-    # and define their layout, by using the methods at begining of this file
+    # The four callbacks below continuously update the graphs above
+    # and define their layout, by using the methods at beginning of this file
     # to make data calls to the postgres server as data is update from the
     # main site routes
     @dash_app.callback(Output('rec-clicks-per-day', 'figure'),
