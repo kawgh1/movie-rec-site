@@ -5,7 +5,7 @@
 {% block content %}
 
 
-            <div class="container fluid">
+<div class="container fluid" xmlns="http://www.w3.org/1999/html">
                   <!-- Display Movie Recommendations -->
                 <h3 class="form"> Movies to Watch </h3>
                 <hr>
@@ -23,31 +23,38 @@
                 <!-- if they're logged in, their movie rec results have a green '+' sign to add movie to their list, otherwise, just the movie name displays -->
                 {% if current_user.is_authenticated %}
 
-                        <h4>Movie Selected: <b style="color: deeppink">{{ movies[0] }}</b><b> -- rating:  {{ ratings[0] }}</b>
+                        <h4>Movie Selected: <b style="color: deeppink">{{ movies[0] }}</b>
                             <span class="label label-success"><a href="{{ url_for('main.add_movie', item=movies[  0  ]) }}" style="color: floralwhite; font-size: 14px">+</a></span> </h4>
+                        <h4 style="text-indent: 10px">user rating:  <b>{{ ratings[0] }}</b></h4>
                         <p style="font-size: 12px; text-indent: 15px">*Not the right movie? Try inputting the movie year after the title</p>
                         <!-- horizontal line -->
                         <hr>
                         <h4>Recommendations</h4>
+
                         <ul>
                             {% for item in movies[1:] %}
-
-                             <li>{{ item }} -- rating:  {{ ratings[movies.index(item)] }} --<b style="color: MediumVioletRed"> comp score:  {{ scores_list[movies.index(item)] }}%</b>
-                                 <span class="label label-success"><a href="{{ url_for('main.add_movie', item=movies[  loop.index  ]) }}" style="color: floralwhite; font-size: 14px">+</a></span></li>
+                                <li><b>{{ item }}</b><span class="label label-success"><a href="{{ url_for('main.add_movie', item=movies[  loop.index  ]) }}" style="color: floralwhite; font-size: 14px">+</a></span></li>
+                                <li style="color: MediumVioletRed">comp score:<b> {{ scores_list[movies.index(item)] }}%</b></li>
+                                <li>rating:  <b>{{ ratings[movies.index(item)] }}</b></li>
+                                <br>
                             {% endfor %}
                         </ul>
 
                 {% else %}
                         <!-- if not logged in, just display the movie recommendations -->
 
-                        <h4>Movie Selected: <b style="color: deeppink">{{ movies[0] }}</b><b> -- rating:  {{ ratings[0] }}</b></h4>
-                        <p style="font-size: 12px; text-indent: 2px">*Not the right movie? Try inputting the movie year after the title</p>
+                        <h4>Movie Selected: <b style="color: deeppink">{{ movies[0] }}</b></h4>
+                        <h4 style="text-indent: 10px">user rating:  <b>{{ ratings[0] }}</b></h4>
+                        <p style="font-size: 12px; text-indent: 15px">*Not the right movie? Try inputting the movie year after the title</p>
                         <!-- horizontal line -->
                         <hr>
                         <h4>Recommendations</h4>
                         <ul>
                             {% for item in movies[1:] %}
-                                <li>{{ item }} -- rating:  {{ ratings[movies.index(item)] }} --<b style="color: MediumVioletRed"> comp score: {{ scores_list[movies.index(item)] }}%</b></li>
+                                <li><b>{{ item }}</b></li>
+                                <li style="color: MediumVioletRed">comp score:<b> {{ scores_list[movies.index(item)] }}%</b></li>
+                                <li>rating:  <b>{{ ratings[movies.index(item)] }}</b></li>
+                                <br>
                             {% endfor %}
                         </ul>
 

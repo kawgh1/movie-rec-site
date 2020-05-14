@@ -1,5 +1,5 @@
 # MovieRecSite/catalog/routes.py
-from movieRecFlask.catalog import main, recommender1
+from movieRecFlask.catalog import main, recommender2
 from movieRecFlask.catalog.forms import GetRecsForm
 from flask_login import current_user
 from movieRecFlask.catalog.models import UserMovies, RecsClicks
@@ -7,27 +7,17 @@ from movieRecFlask.catalog.models import UserMovies, RecsClicks
 from flask import render_template, flash
 from flask_login import login_required
 
-
-# for dashboard visualization data
-
-
+# About page
 @main.route('/about', methods=['GET', 'POST'])
 def about():
     return render_template('about.html')
 
-
+# Data page
 @main.route('/data', methods=['GET', 'POST'])
 def data():
     return render_template('data.html')
 
-
-# @main.route('/', methods=['GET', 'POST'])
-# @main.route('/home', methods=['GET', 'POST'])
-# @main.route('/index', methods=['GET', 'POST'])
-# def hello():
-#     form = GetRecsForm()
-#     return render_template('home.html', form=form)
-
+# 'Home' or Main page (Recommender page)
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/home', methods=['GET', 'POST'])
 @main.route('/index', methods=['GET', 'POST'])
@@ -45,12 +35,15 @@ def hello():
         if form.validate_on_submit():
             movie_name = form.movie_name.data
 
-            movie_list = recommender1.recommender_final(movie_name)
+            results = recommender2.recommender_final(movie_name)
+            movie_list = results[0]
+            scores_list = results[1]
+            #scores_list = recommender1.get_scores(movie_name)
 
-            scores_list = recommender1.get_scores(movie_name)
-            comp_score = scores_list[0]
+            # comp_score = scores_list[1] because 1 is the first recommendation, 0 is the movie searched for
+            comp_score = scores_list[1]
 
-            movie_id = recommender1.get_movie_id(movie_name)
+            movie_id = recommender2.get_movie_id(movie_name)
 
 
 
@@ -64,7 +57,7 @@ def hello():
             )
 
             for movie in movie_list:
-                rating_list.append(recommender1.get_movie_avg(movie))
+                rating_list.append(recommender2.get_movie_avg(movie))
 
             # if user logged in and requests recommendation
             return render_template('movies2.html',  movies=movie_list, scores_list=scores_list,
@@ -82,12 +75,15 @@ def hello():
         if form.validate_on_submit():
             movie_name = form.movie_name.data
 
-            movie_list = recommender1.recommender_final(movie_name)
+            results = recommender2.recommender_final(movie_name)
+            movie_list = results[0]
+            scores_list = results[1]
+            # scores_list = recommender1.get_scores(movie_name)
 
-            scores_list = recommender1.get_scores(movie_name)
-            comp_score = scores_list[0]
+            # comp_score = scores_list[1] because 1 is the first recommendation, 0 is the movie searched for
+            comp_score = scores_list[1]
 
-            movie_id = recommender1.get_movie_id(movie_name)
+            movie_id = recommender2.get_movie_id(movie_name)
 
 
 
@@ -105,7 +101,7 @@ def hello():
             )
 
             for movie in movie_list:
-                rating_list.append(recommender1.get_movie_avg(movie))
+                rating_list.append(recommender2.get_movie_avg(movie))
 
             return render_template('movies2.html', movies=movie_list, scores_list=scores_list,
                                    ratings=rating_list, form=form)
@@ -114,7 +110,7 @@ def hello():
             # If it's a GET request, we just display the basic page with form
             return render_template('movies1.html', form=form)
 
-
+# Add movie page
 @main.route('/add/movie/<item>', methods=['GET'])
 @login_required
 def add_movie(item):
@@ -129,7 +125,7 @@ def add_movie(item):
 
     return render_template('movie_added.html')
 
-
+# Remove movie page
 @main.route('/remove/movie/<item>', methods=['GET'])
 @login_required
 def remove_movie(item):

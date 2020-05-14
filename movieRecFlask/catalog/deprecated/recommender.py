@@ -8,6 +8,8 @@ from fuzzywuzzy import process
 
 import pandas as pd
 
+# This recommender is based on user ratings matrix and uses
+# Nearest Neighbor algo to determine cosine similarity among vectors
 
 # CSR Matrix for Recommender method
 from scipy.sparse import csr_matrix
@@ -181,12 +183,8 @@ def get_movie_compatibility_score(movie_name):
     return distance_list
 
 #############################################################################
-# The website calculates each movie average rating manually
-# It would be more efficient to have a 'movie average table' to retrieve from
-# However, calculating the average rating of 10,000 movies
-# at 1-3 seconds per movies average
-# takes approximately 5-7 hours on my machine.
-# Putting this calculation on the front end time was the tradeoff
+# This get movie_avg method is old and should not be used
+# User the new get_movie_avg method in recommender1.py
 ################################################################################
 def get_movie_avg(movie_name):
     index = process.extractOne(movie_name, df_movies['title'])[2]

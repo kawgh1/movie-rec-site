@@ -45,7 +45,7 @@ bcrypt = Bcrypt()
 heroku = Heroku()
 
 
-def create_app(config_type): # dev, test, prod
+def create_app(config_type):  # dev, test, prod
 
     app = Flask(__name__)
 
@@ -75,7 +75,7 @@ def create_app(config_type): # dev, test, prod
 
     heroku.init_app(app)  # initialize heroku
 
-    # from bookFlask.catalog import main
+    # from movieRecFlask.catalog import main
     from movieRecFlask.catalog import main  # import 'main' (catalog) blueprint
 
     # this is the Flask application instance and not the package
@@ -86,31 +86,9 @@ def create_app(config_type): # dev, test, prod
     from movieRecFlask.auth import authentication
     app.register_blueprint(authentication)  # import 'authentication' (auth) blueprint
 
-    # Import Dash application
-    # from movieRecFlask.plotlydash import dashboard
-    # app.register_blueprint(dashboard)
-
-    # from movieRecFlask.plotlydash.dashboard import create_dashboard
-    #
-    # app = create_dashboard(app)
-
-    # with app.app_context():
-    #     # Import Flask routes
-    #     from movieRecFlask.catalog import routes
-    #
-    #     # Import Dash application
-    #     from movieRecFlask.plotlydash.dashboard import create_dashboard
-    #     app = create_dashboard(app)
-    #
-    #     # Compile CSS
-    #     # from movieRecFlask.assets import compile_assets
-    #     # compile_assets(app)
-
-
-
     return app
 
-    # this function can be called an 'application factory'
+    # this function above can be called an 'application factory'
 
     # because we are creating the Flask application on the fly (in run.py) using th desired configuration
     # the configuration can be development, testing or production or other as needed

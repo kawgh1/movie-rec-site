@@ -9,9 +9,9 @@
                   <!-- Display Movie Recommendations -->
                 <h3 class="form"> About Movie Recommender </h3>
                 <hr>
-                <p>This recommender engine was created using the "small" subset of the GroupLens MovieLens 25 Million dataset.
+                <p> &emsp;&emsp; This recommender engine was created using the "small" subset of the GroupLens MovieLens 25 Million dataset.
                     This "small" dataset contains approximately 100,000
-                ratings of approximately 10,000 movies by approximately 600 users.
+                ratings and 4,000 user defined movie 'tags' of approximately 10,000 movies by approximately 600 users.
                     The Movie Recommender is a private, educational website. It is not for any commercial purpose and is not
                     endorsed by any organization. The datasets are provided free for non-commercial public use by GroupLens MovieLens.
                     For more information about the dataset, please visit the <a href="{{ url_for('main.data') }}">Data</a> page.</p>
@@ -19,24 +19,34 @@
 
                 <h3 class="form">How It Works</h3>
                 <hr>
-                <p>The first recommender engine uses the Nearest Neighbors algorithm from the Machine Learning Python Library Sci-Kit Learn (sklearn.neighbors).
-                It is an unsupervised algorithm that in our case maps all of the ratings by each user in our data and turns them into vectors.
-                It then compares all of these vectors by measuring the angle between each vector.</p>
-                <p>When a user inputs a movie to receive recommendations, the algorithm takes that movie and compares it to all of
-                the vectors it has mapped, and returns the top movies within those vectors that most closely match the
-                user's movie.</p>
-
-                <p>The current recommender engine uses keyword count vectorization to map movies with listed genres and user defined
-                'tags' such as 'funny' or 'Australia'. The algorithm reads all of the keywords and maps the vectors of each
-                movie based on their keywords. It then uses cosine similarity to determine the most similar movies (vectors)
-                based on keywords!</p>
+                <p> &emsp; &emsp;For this recommender engine, keywords consist of movie 'tags' and genres. The  engine first checks
+                    if the user input movie has any keyword matches within the dataset. If
+                    it does, then the recommender uses a Feature Analysis algorithm (cosine similarity) to recommend movies
+                    with similar keywords (tags and genres). This keyword-based algorithm maps all of the keywords and turns them into vectors.
+                It then compares all of these vectors by measuring the angle between each vector. Movie-vectors with the smallest
+                angle between them are, ideally, the most similar and are then recommended to the user.</p>
 
 
-                <p>Sometimes the recommendations are accurate and other times they do not appear to make any sense. Part of the reason for this
+                <p> &emsp;&emsp; If there are no keyword matches, then the recommender engine uses a rating-based algorithm using
+                    Nearest Neighbors from the Machine Learning Python Library Sci-Kit Learn (sklearn.neighbors).
+                It is an unsupervised algorithm that maps all of the ratings and turns them into vectors.
+                It then compares all of these vectors by measuring the angle between each vector and again recommending
+                    the movies with the most similar vectors.</p>
+
+                <p>&emsp;&emsp;The keyword-based algorithm is fairly accurate - it at least provides movies you expect. However, due to the limited
+                tag data, it only has a recommendable universe of about 1,600 movies. If your movie isn't in there, it's got nothing
+                for you.</p>
+
+                <p>&emsp;&emsp;The rating-based algorithm is less accurate and often provides a mix of recommendations that are intuitive and sometimes bizarre.
+                This is because the rating algorithm is solely based on dataset user ratings of movies. It doesn't matter if those movies have anything
+                in common with the one you searched for. If users in the dataset rated it, your recommendations are based on those user's ratings of
+                    other movies. This creates some interesting recommendations! </p>
+
+                    <p>&emsp;&emsp;Part of the reason for this
                 is due to the relatively narrow dataset used. The ratings are from 600 users. The average number of ratings per movie is 10 ratings
                     while the median number of ratings is 3 ratings.</p>
                 <img src="static/img/num-ratings-per-movie.png" alt="Number of Ratings Per Movie Graph" class="center">
-                <p>This means more than 50% of the movies in the data - over 5,000 movies - Movie Recommender uses to provide recommendations have
+                <p>&emsp;&emsp;This means more than 50% of the movies in the data - over 5,000 movies - Movie Recommender uses to provide recommendations have
                 3 ratings or less. This is called data sparsity - where, despite having a large data set, it is highly concentrated in only a few
                 areas or datapoints. Nevertheless, movies with more ratings are much more likely to be recommended, as they are found in more vectors
                 mapped by the algorithm. In this way, Movie Recommender can still provide meaningful recommendations when the input movie has close

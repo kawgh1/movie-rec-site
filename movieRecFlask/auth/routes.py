@@ -89,7 +89,6 @@ def do_the_login():
                     )
         flash('Login Successful!')
 
-
         return redirect(url_for('main.hello'))
 
     return render_template('login.html', form=form)
