@@ -1,8 +1,12 @@
 # movie-rec-site
 flask movie recommender site using cosine similarity
 
+To access the publicly hosted version of the application on Heroku, visit https://hr-movie-rec-site.herokuapp.com/home . Note this version’s databases are hosted on Heroku and the data displayed on its dashboard will differ from that on the local host dashboard.
+
+
+
 Requirements
-To successfully run the application, the following software is required:
+To successfully run the application locally, the following software is required:
 	Windows 10 OS – Windows 7 and 8 should be viable, but not guaranteed – some dependencies listed in requirements.txt are Windows specific. The application was not tested on other operating systems.
 	Python v. 3.6+ older versions are incompatible with some of the required dependencies. 3.7+ may not be supported by all webservers in deployment.
 	PostgreSQL 10 – newer version are incompatible with some of the required dependencies
