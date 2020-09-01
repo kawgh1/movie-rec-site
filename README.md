@@ -1,8 +1,8 @@
 # movie-rec-site
 flask movie recommender site using cosine similarity
 
-# note: page is slow on initial load because it is calling up a large hosted database of 10,000+ movies, 100,000+ user reviews, 1,000+ movie tags. 
-# Ideally GPUs like Google CoLab or other cloud processors would be used to make requests in milliseconds 
+## note: page is slow on initial load because it is calling up a large hosted database of 10,000+ movies, 100,000+ user reviews, 1,000+ movie tags. 
+### Ideally GPUs like Google CoLab or other cloud processors would be used to make requests in milliseconds 
 
 To access the publicly hosted version of the application on Heroku, visit https://hr-movie-rec-site.herokuapp.com/home . Note this version’s databases are hosted on Heroku and the data displayed on its dashboard will differ from that on the local host dashboard.
 
